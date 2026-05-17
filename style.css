@@ -264,7 +264,17 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: rgba(6, 6, 8, 0.78); /* tối đều để text luôn đọc được */
+  background: rgba(6, 6, 8, 0.82);
+}
+
+/* About cần tối hơn bên phải để text đọc được */
+#about .section-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(6, 6, 8, 0.55) 0%,    /* bên trái: ảnh portrait còn thấy */
+    rgba(6, 6, 8, 0.90) 50%,   /* giữa: chặn background */
+    rgba(6, 6, 8, 0.95) 100%   /* bên phải: text rõ hoàn toàn */
+  );
 }
 
 /* ===== ABOUT ===== */
