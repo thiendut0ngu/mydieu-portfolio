@@ -111,16 +111,41 @@ window.addEventListener('scroll', () => {
 
 updateParallax();
 
-// Hero video mute toggle
+// Hero video audio control
 const heroVideo = document.querySelector('.hero-video');
 const heroMuteBtn = document.getElementById('heroMuteBtn');
-if (heroVideo && heroMuteBtn) {
-  heroMuteBtn.addEventListener('click', () => {
-    heroVideo.muted = !heroVideo.muted;
-    heroMuteBtn.querySelector('.icon-muted').style.display = heroVideo.muted ? '' : 'none';
-    heroMuteBtn.querySelector('.icon-sound').style.display = heroVideo.muted ? 'none' : '';
-    heroMuteBtn.setAttribute('aria-label', heroVideo.muted ? 'Bật âm thanh' : 'Tắt âm thanh');
-  });
+
+function syncMuteBtn(muted) {
+  if (!heroMuteBtn) return;
+  heroMuteBtn.querySelector('.icon-muted').style.display = muted ? '' : 'none';
+  heroMuteBtn.querySelector('.icon-sound').style.display = muted ? 'none' : '';
+  heroMuteBtn.setAttribute('aria-label', muted ? 'Bật âm thanh' : 'Tắt âm thanh');
+}
+
+function setMuted(muted) {
+  if (!heroVideo) return;
+  heroVideo.muted = muted;
+  syncMuteBtn(muted);
+}
+
+if (heroVideo) {
+  // Unmute once video starts playing (browser allows unmuting an already-playing video)
+  heroVideo.addEventListener('playing', () => {
+    setMuted(false);
+  }, { once: true });
+
+  // Mute when about section scrolls into view
+  const aboutSection = document.getElementById('about');
+  if (aboutSection) {
+    new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) setMuted(true);
+    }, { threshold: 0.25 }).observe(aboutSection);
+  }
+
+  // Manual toggle button
+  if (heroMuteBtn) {
+    heroMuteBtn.addEventListener('click', () => setMuted(!heroVideo.muted));
+  }
 }
 
 // Touch swipe for lightbox
