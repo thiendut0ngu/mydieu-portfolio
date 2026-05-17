@@ -111,6 +111,18 @@ window.addEventListener('scroll', () => {
 
 updateParallax();
 
+// Hero video mute toggle
+const heroVideo = document.querySelector('.hero-video');
+const heroMuteBtn = document.getElementById('heroMuteBtn');
+if (heroVideo && heroMuteBtn) {
+  heroMuteBtn.addEventListener('click', () => {
+    heroVideo.muted = !heroVideo.muted;
+    heroMuteBtn.querySelector('.icon-muted').style.display = heroVideo.muted ? '' : 'none';
+    heroMuteBtn.querySelector('.icon-sound').style.display = heroVideo.muted ? 'none' : '';
+    heroMuteBtn.setAttribute('aria-label', heroVideo.muted ? 'Bật âm thanh' : 'Tắt âm thanh');
+  });
+}
+
 // Touch swipe for lightbox
 let touchStartX = 0;
 lightbox.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
