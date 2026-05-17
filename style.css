@@ -335,6 +335,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 .about-portrait {
   object-position: 45% 12%;
+  transform: scale(1.2);
+  transform-origin: 45% 12%;
 }
 
 .about-image-frame {
