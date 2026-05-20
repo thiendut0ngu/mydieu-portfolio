@@ -710,10 +710,11 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 }
 
 .pw-track img {
-  height: 100%;
+  height: 90%;
   width: auto;
   object-fit: cover;
   flex-shrink: 0;
+  border-radius: 14px;
   filter: brightness(0.88) saturate(0.9);
   transition: filter 0.4s;
   cursor: pointer;
