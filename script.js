@@ -42,19 +42,12 @@ let currentIndex = 0;
 // ===== Photo Wall =====
 const photoWall = document.getElementById('photoWall');
 if (photoWall) {
-  const allPwImages = [];
+  // Collect only original images (not aria-hidden duplicates)
+  const allPwImages = Array.from(photoWall.querySelectorAll('img:not([aria-hidden])'));
 
-  photoWall.querySelectorAll('.pw-track').forEach(track => {
-    const origImgs = Array.from(track.querySelectorAll('img'));
-    allPwImages.push(...origImgs);
-    // Duplicate images for seamless infinite loop
-    origImgs.forEach(img => track.appendChild(img.cloneNode(true)));
-  });
-
-  // Click any image → open lightbox
   photoWall.addEventListener('click', e => {
     const img = e.target.closest('img');
-    if (!img) return;
+    if (!img || img.getAttribute('aria-hidden')) return;
     const idx = allPwImages.findIndex(i => i.src === img.src);
     if (idx === -1) return;
     images = allPwImages;
