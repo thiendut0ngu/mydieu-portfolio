@@ -9,6 +9,7 @@
   --white:     #f5f2ed;
   --muted:     #888;
   --serif:     'Cormorant Garamond', Georgia, serif;
+  --didone:    'Bodoni Moda', 'Didot', 'Bodoni MT', Georgia, serif;
   --sans:      'Montserrat', sans-serif;
 }
 
@@ -159,7 +160,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 }
 
 .hero-title {
-  font-family: var(--serif);
+  font-family: var(--didone);
   font-size: clamp(3.5rem, 9vw, 8rem);
   font-weight: 300;
   line-height: 1.05;
@@ -374,7 +375,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 }
 
 .about-text h2 {
-  font-family: var(--serif);
+  font-family: var(--didone);
   font-size: clamp(2rem, 4vw, 3.2rem);
   font-weight: 300;
   line-height: 1.15;
@@ -672,7 +673,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 .pw-label span {
   font-family: var(--sans);
-  font-size: clamp(1rem, 3.2vw, 3.2rem);
+  font-size: 20px;
   font-weight: 200;
   letter-spacing: 0.35em;
   text-transform: uppercase;
@@ -685,7 +686,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 .pw-dot {
   font-style: normal;
-  font-size: clamp(0.8rem, 2vw, 2rem);
+  font-size: 16px;
   color: rgba(255, 255, 255, 0.35);
   line-height: 1;
   flex-shrink: 0;
