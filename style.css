@@ -428,6 +428,203 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   margin-top: 0.4rem;
 }
 
+/* ===== JOURNEY ===== */
+.journey-section {
+  padding: 7rem 4rem 8rem;
+  background: var(--bg2);
+  overflow: hidden;
+}
+
+.journey-wrap {
+  position: relative;
+  height: 400px;
+  max-width: 1100px;
+  margin: 2rem auto 0;
+}
+
+/* Road */
+.j-road-track {
+  position: absolute;
+  left: 4%; right: 4%;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: rgba(201,169,110,0.12);
+  border-radius: 2px;
+}
+
+.j-road-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(90deg,
+    rgba(201,169,110,0.4) 0%,
+    rgba(232,212,160,1) 50%,
+    rgba(201,169,110,0.4) 100%);
+  box-shadow: 0 0 12px rgba(201,169,110,0.5), 0 0 28px rgba(201,169,110,0.2);
+  border-radius: 2px;
+  transition: width 3.4s cubic-bezier(0.22,1,0.36,1);
+}
+
+.j-road-glow {
+  position: absolute;
+  top: 50%; left: 0%;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 14px var(--gold), 0 0 36px rgba(201,169,110,0.6);
+  transform: translate(-50%, -50%);
+  transition: left 3.4s cubic-bezier(0.22,1,0.36,1);
+}
+
+/* Milestone container */
+.jm {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: var(--p);
+  transform: translateX(-50%);
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Upper half (above road) */
+.jm-upper {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 10px;
+  width: 160px;
+}
+
+/* Lower half (below road) */
+.jm-lower {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  width: 160px;
+}
+
+/* Node (dot on road) */
+.jm-node {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--bg2);
+  box-shadow: 0 0 0 3px rgba(201,169,110,0.18);
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* Stem */
+.jm-stem {
+  width: 2px;
+  height: 52px;
+  flex-shrink: 0;
+  background: linear-gradient(to bottom, rgba(201,169,110,0.7), rgba(201,169,110,0.1));
+  opacity: 0;
+  transition: opacity 0.3s 0.1s;
+}
+.jm-lower .jm-stem {
+  background: linear-gradient(to top, rgba(201,169,110,0.7), rgba(201,169,110,0.1));
+}
+
+/* Flag SVG */
+.jm-flag {
+  width: 22px; height: 17px;
+  color: var(--gold);
+  flex-shrink: 0;
+  opacity: 0;
+  transform: scale(0) rotate(-40deg);
+  transition: opacity 0.35s 0.18s, transform 0.55s 0.18s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* Card */
+.jm-card {
+  width: 148px;
+  background: rgba(14,14,18,0.9);
+  border: 1px solid rgba(201,169,110,0.22);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  text-align: center;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s 0.05s, transform 0.4s 0.05s ease;
+  backdrop-filter: blur(6px);
+}
+.jm-upper .jm-card { transform: translateY(-10px); }
+
+.jm-yr {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+.jm-card strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 0.25rem;
+}
+.jm-card span {
+  font-size: 0.62rem;
+  color: var(--muted);
+  line-height: 1.45;
+  display: block;
+}
+
+/* 2025 gold highlight */
+.jm-gold .jm-node {
+  background: var(--gold);
+  border-color: var(--gold-light);
+  box-shadow: 0 0 0 5px rgba(232,212,160,0.2), 0 0 22px rgba(201,169,110,0.6);
+  width: 18px; height: 18px;
+}
+.jm-gold .jm-flag { color: var(--gold-light); }
+.jm-gold .jm-card {
+  border-color: rgba(232,212,160,0.38);
+  background: rgba(201,169,110,0.07);
+}
+
+/* Visible state — triggered by JS */
+.jm.jm-on .jm-node { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+.jm.jm-on .jm-stem { opacity: 1; }
+.jm.jm-on .jm-flag { opacity: 1; transform: scale(1) rotate(0deg); }
+.jm.jm-on .jm-card { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .journey-section { padding: 4rem 0 4rem; }
+  .journey-wrap {
+    overflow-x: auto;
+    min-width: 750px;
+    scrollbar-width: none;
+    margin: 2rem 0 0;
+  }
+  .journey-wrap::-webkit-scrollbar { display: none; }
+}
+
 /* ===== GALLERY ===== */
 .gallery-section {
   background: var(--bg);

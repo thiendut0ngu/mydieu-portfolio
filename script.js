@@ -39,6 +39,31 @@ const lightboxNext = document.getElementById('lightboxNext');
 let images = [];
 let currentIndex = 0;
 
+// ===== Journey Timeline =====
+const journeyWrap = document.getElementById('journeyWrap');
+if (journeyWrap) {
+  const fill  = document.getElementById('jRoadFill');
+  const glow  = document.getElementById('jRoadGlow');
+  const jms   = journeyWrap.querySelectorAll('.jm');
+  const DUR   = 3400;
+  let started = false;
+
+  function startJourney() {
+    if (started) return;
+    started = true;
+    if (fill) fill.style.width = '100%';
+    if (glow) glow.style.left  = '100%';
+    jms.forEach(jm => {
+      const pct = parseFloat(jm.dataset.pos || 0);
+      setTimeout(() => jm.classList.add('jm-on'), (pct / 100) * DUR);
+    });
+  }
+
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) startJourney();
+  }, { threshold: 0.25 }).observe(journeyWrap);
+}
+
 // ===== Photo Wall =====
 const photoWall = document.getElementById('photoWall');
 if (photoWall) {
