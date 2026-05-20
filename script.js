@@ -39,14 +39,72 @@ const lightboxNext = document.getElementById('lightboxNext');
 let images = [];
 let currentIndex = 0;
 
-document.querySelectorAll('.gallery-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const img = item.querySelector('img');
-    images = Array.from(document.querySelectorAll('.gallery-item img'));
-    currentIndex = images.indexOf(img);
-    showLightbox(currentIndex);
+// ===== Slideshow =====
+const slideshowEl = document.getElementById('slideshow');
+if (slideshowEl) {
+  const slides = Array.from(slideshowEl.querySelectorAll('.slide'));
+  const currentNumEl = document.getElementById('slideCurrentNum');
+  const totalNumEl   = document.getElementById('slideTotalNum');
+  const progressBar  = document.getElementById('slideProgressBar');
+  const DURATION = 4500;
+
+  let curSlide = 0;
+  let ssTimer = null;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function goToSlide(idx) {
+    slides[curSlide].classList.remove('active');
+    curSlide = (idx + slides.length) % slides.length;
+    slides[curSlide].classList.add('active');
+    if (currentNumEl) currentNumEl.textContent = pad(curSlide + 1);
+    // restart Ken Burns
+    const img = slides[curSlide].querySelector('img');
+    if (img) { img.style.animation = 'none'; img.offsetHeight; img.style.animation = ''; }
+    // restart progress bar
+    if (progressBar) {
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '0%';
+      progressBar.offsetHeight;
+      progressBar.style.transition = `width ${DURATION}ms linear`;
+      progressBar.style.width = '100%';
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(ssTimer);
+    ssTimer = setInterval(() => goToSlide(curSlide + 1), DURATION);
+  }
+
+  if (totalNumEl) totalNumEl.textContent = pad(slides.length);
+
+  document.getElementById('slidePrev').addEventListener('click', e => { e.stopPropagation(); goToSlide(curSlide - 1); resetTimer(); });
+  document.getElementById('slideNext').addEventListener('click', e => { e.stopPropagation(); goToSlide(curSlide + 1); resetTimer(); });
+
+  // Click slide → open lightbox
+  slides.forEach((slide, i) => {
+    slide.addEventListener('click', () => {
+      images = slides.map(s => s.querySelector('img'));
+      currentIndex = i;
+      showLightbox(currentIndex);
+    });
   });
-});
+
+  // Touch swipe on slideshow
+  let tStartX = 0;
+  slideshowEl.addEventListener('touchstart', e => { tStartX = e.touches[0].clientX; }, { passive: true });
+  slideshowEl.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tStartX;
+    if (Math.abs(dx) > 50) { goToSlide(dx < 0 ? curSlide + 1 : curSlide - 1); resetTimer(); }
+  });
+
+  // Kick off
+  if (progressBar) {
+    progressBar.style.transition = `width ${DURATION}ms linear`;
+    progressBar.style.width = '100%';
+  }
+  ssTimer = setInterval(() => goToSlide(curSlide + 1), DURATION);
+}
 
 function showLightbox(index) {
   lightboxImg.src = images[index].src;
