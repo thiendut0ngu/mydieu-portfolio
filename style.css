@@ -672,14 +672,14 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 }
 
 .pw-label span {
-  font-family: var(--sans);
+  font-family: var(--didone);
   font-size: 32px;
-  font-weight: 300;
-  letter-spacing: 0.3em;
+  font-weight: 400;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #fff;
-  -webkit-text-stroke: 1px #000;
-  text-stroke: 1px #000;
+  color: var(--gold-light);
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.7);
+  text-stroke: 1px rgba(0, 0, 0, 0.7);
   paint-order: stroke fill;
   line-height: 1;
   display: block;
@@ -687,8 +687,11 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 .pw-dot {
   font-style: normal;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--didone);
+  font-size: 28px;
+  color: var(--gold);
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+  paint-order: stroke fill;
   line-height: 1;
   flex-shrink: 0;
 }
