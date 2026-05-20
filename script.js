@@ -39,71 +39,28 @@ const lightboxNext = document.getElementById('lightboxNext');
 let images = [];
 let currentIndex = 0;
 
-// ===== Slideshow =====
-const slideshowEl = document.getElementById('slideshow');
-if (slideshowEl) {
-  const slides = Array.from(slideshowEl.querySelectorAll('.slide'));
-  const currentNumEl = document.getElementById('slideCurrentNum');
-  const totalNumEl   = document.getElementById('slideTotalNum');
-  const progressBar  = document.getElementById('slideProgressBar');
-  const DURATION = 4500;
+// ===== Photo Wall =====
+const photoWall = document.getElementById('photoWall');
+if (photoWall) {
+  const allPwImages = [];
 
-  let curSlide = 0;
-  let ssTimer = null;
-
-  function pad(n) { return String(n).padStart(2, '0'); }
-
-  function goToSlide(idx) {
-    slides[curSlide].classList.remove('active');
-    curSlide = (idx + slides.length) % slides.length;
-    slides[curSlide].classList.add('active');
-    if (currentNumEl) currentNumEl.textContent = pad(curSlide + 1);
-    // restart Ken Burns
-    const img = slides[curSlide].querySelector('img');
-    if (img) { img.style.animation = 'none'; img.offsetHeight; img.style.animation = ''; }
-    // restart progress bar
-    if (progressBar) {
-      progressBar.style.transition = 'none';
-      progressBar.style.width = '0%';
-      progressBar.offsetHeight;
-      progressBar.style.transition = `width ${DURATION}ms linear`;
-      progressBar.style.width = '100%';
-    }
-  }
-
-  function resetTimer() {
-    clearInterval(ssTimer);
-    ssTimer = setInterval(() => goToSlide(curSlide + 1), DURATION);
-  }
-
-  if (totalNumEl) totalNumEl.textContent = pad(slides.length);
-
-  document.getElementById('slidePrev').addEventListener('click', e => { e.stopPropagation(); goToSlide(curSlide - 1); resetTimer(); });
-  document.getElementById('slideNext').addEventListener('click', e => { e.stopPropagation(); goToSlide(curSlide + 1); resetTimer(); });
-
-  // Click slide → open lightbox
-  slides.forEach((slide, i) => {
-    slide.addEventListener('click', () => {
-      images = slides.map(s => s.querySelector('img'));
-      currentIndex = i;
-      showLightbox(currentIndex);
-    });
+  photoWall.querySelectorAll('.pw-track').forEach(track => {
+    const origImgs = Array.from(track.querySelectorAll('img'));
+    allPwImages.push(...origImgs);
+    // Duplicate images for seamless infinite loop
+    origImgs.forEach(img => track.appendChild(img.cloneNode(true)));
   });
 
-  // Touch swipe on slideshow
-  let tStartX = 0;
-  slideshowEl.addEventListener('touchstart', e => { tStartX = e.touches[0].clientX; }, { passive: true });
-  slideshowEl.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - tStartX;
-    if (Math.abs(dx) > 50) { goToSlide(dx < 0 ? curSlide + 1 : curSlide - 1); resetTimer(); }
+  // Click any image → open lightbox
+  photoWall.addEventListener('click', e => {
+    const img = e.target.closest('img');
+    if (!img) return;
+    const idx = allPwImages.findIndex(i => i.src === img.src);
+    if (idx === -1) return;
+    images = allPwImages;
+    currentIndex = idx;
+    showLightbox(currentIndex);
   });
-
-  // Kick off
-  if (progressBar) {
-    progressBar.style.transition = `width ${DURATION}ms linear`;
-    progressBar.style.width = '100%';
-  }
-  ssTimer = setInterval(() => goToSlide(curSlide + 1), DURATION);
 }
 
 function showLightbox(index) {
