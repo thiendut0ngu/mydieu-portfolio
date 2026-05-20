@@ -678,12 +678,9 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: #fff;
-  background: rgba(0, 0, 0, 0.62);
-  padding: 0.22em 0.7em 0.22em 0.9em;
-  border-radius: 6px;
-  -webkit-text-stroke: 0;
-  text-stroke: 0;
-  text-shadow: none;
+  -webkit-text-stroke: 1px #000;
+  text-stroke: 1px #000;
+  paint-order: stroke fill;
   line-height: 1;
   display: block;
 }
