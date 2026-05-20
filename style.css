@@ -118,6 +118,31 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   );
 }
 
+.hero-bg-text {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  white-space: nowrap;
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 10vw, 9rem);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,169,110,0.18);
+  text-stroke: 1px rgba(201,169,110,0.18);
+  pointer-events: none;
+  user-select: none;
+  animation: bgTextDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes bgTextDrift {
+  from { opacity: 0.6; letter-spacing: 0.18em; }
+  to   { opacity: 1;   letter-spacing: 0.24em; }
+}
+
 .hero-content {
   position: relative;
   z-index: 2;
