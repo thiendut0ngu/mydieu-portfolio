@@ -1,287 +1,1424 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nguyễn Thị Mỹ Diệu</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;1,6..96,300;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mỹ Diệu – NTMD</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23B31A24'/><text x='16' y='22' font-family='Arial' font-weight='900' font-size='13' fill='white' text-anchor='middle'>MD</text></svg>">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandRed: '#B31A24',
+                        brandRedHover: '#91121A',
+                        brandCream: '#F4F1EA',
+                        brandCreamDark: '#ECE8DF',
+                        brandDark: '#1E1E1E',
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F4F1EA;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .grid-bg {
+            background-size: 30px 30px;
+            background-image:
+                linear-gradient(to right, rgba(179, 26, 36, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(179, 26, 36, 0.05) 1px, transparent 1px);
+        }
+
+        .super-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+        }
+
+        .slide-container {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #ECE8DF; }
+        ::-webkit-scrollbar-thumb { background: #B31A24; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #91121A; }
+
+        /* ── Responsive: mobile ─────────────────────────── */
+        @media (max-width: 639px) {
+            /* Nav: scroll ngang, không wrap */
+            header nav {
+                flex-wrap: nowrap !important;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 2px;
+                scrollbar-width: none;
+                gap: 1rem !important;
+            }
+            header nav::-webkit-scrollbar { display: none; }
+            header nav button { font-size: 9px !important; white-space: nowrap; }
+
+            /* Cover slide: ẩn ảnh, text full-width */
+            #coverPhoto { display: none !important; }
+            #coverContent { padding: 1.5rem !important; }
+            #coverTextArea { max-width: 100% !important; padding: 1rem 0 !important; }
+            #slide-0 h1 { font-size: clamp(3.5rem, 18vw, 5.5rem) !important; }
+            #slide-0 h2 { font-size: 1rem !important; }
+
+            /* Album photo grids: 2 cột trên mobile */
+            .album-row-4  { grid-template-columns: repeat(2, 1fr) !important; }
+            .album-row-3  { grid-template-columns: repeat(2, 1fr) !important; }
+            .album-row-featured { grid-template-columns: 1fr !important; }
+
+            /* Awards slide: scroll nội bộ trong 92vh trên mobile */
+            #slide-6 { height: 92vh !important; max-height: none !important; overflow: hidden !important; }
+            #a6PanelAward, #a6PanelRecord { overflow-y: auto !important; -webkit-overflow-scrolling: touch; }
+            /* Award photos: 1 cột, inner div dùng flex column */
+            #a6PanelAward { grid-template-columns: 1fr !important; }
+            #a6PanelAward > div { display: flex !important; flex-direction: column !important; grid-template-rows: unset !important; gap: 0.5rem; min-height: unset !important; }
+            #a6PanelAward > div > div { aspect-ratio: 4/3 !important; min-height: unset !important; }
+            /* Revenue photos: 2 cột */
+            #a6PanelRecord { grid-template-columns: repeat(2,1fr) !important; }
+            #a6PanelRecord > div { grid-column: span 1 !important; aspect-ratio: 4/3 !important; min-height: unset !important; }
+
+            /* Larita placeholder grid: 1 cột trên mobile */
+            #slide-larita .lg\:col-span-7 .grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* ── Responsive: tablet ─────────────────────────── */
+        @media (min-width: 640px) and (max-width: 1023px) {
+            #coverPhoto { width: 50% !important; }
+            #coverTextArea { max-width: 52% !important; }
+            #coverContent { padding: 2rem !important; }
+            #slide-0 h1 { font-size: clamp(4rem, 10vw, 7rem) !important; }
+        }
+
+        /* Đảm bảo hình ảnh không bị tràn */
+        img { max-width: 100%; height: auto; }
+
+        /* Gallery ảnh wrap đúng trên mọi màn hình */
+        .gallery-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .gallery-grid img { flex: 1 1 200px; min-width: 0; object-fit: cover; border-radius: 0.75rem; }
+
+        /* Language switcher buttons */
+        .lang-btn {
+            background: none;
+            border: 1.5px solid rgba(179,26,36,0.25);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 9px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: rgba(30,30,30,0.5);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 3px 7px;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover { background: rgba(179,26,36,0.08); color: #B31A24; border-color: #B31A24; }
+        .active-lang { background: #B31A24 !important; color: #fff !important; border-color: #B31A24 !important; }
+        .lang-option {
+            display: block; width: 100%; text-align: center; background: none; border: none;
+            cursor: pointer; font-size: 9px; font-weight: 900; letter-spacing: 0.1em;
+            color: rgba(30,30,30,0.55); font-family: 'Plus Jakarta Sans', sans-serif;
+            padding: 6px 14px; transition: all 0.15s; white-space: nowrap;
+        }
+        .lang-option:hover { background: rgba(179,26,36,0.07); color: #B31A24; }
+        .lang-option.active-opt { color: #B31A24; font-weight: 900; background: rgba(179,26,36,0.05); }
+    </style>
 </head>
-<body>
+<body class="grid-bg min-h-screen text-brandDark relative antialiased transition-colors duration-300">
 
-  <!-- NAV -->
-  <nav id="navbar">
-    <div class="nav-logo">MỸ DIỆU</div>
-    <ul class="nav-links">
-      <li><a href="#home">Trang chủ</a></li>
-      <li><a href="#about">Giới thiệu</a></li>
-      <li><a href="#journey">Hành trình</a></li>
-      <li><a href="#gallery">Bộ sưu tập</a></li>
-      <li><a href="#video">Video</a></li>
-      <li><a href="#contact">Liên hệ</a></li>
-    </ul>
-    <button class="nav-toggle" id="navToggle">
-      <span></span><span></span><span></span>
+    <!-- TOP CONTROL NAVIGATION -->
+    <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md border-b border-brandRed/10 z-50 px-6 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <span class="font-bold text-brandRed font-heading tracking-wide text-sm">MỸ DIỆU PORTFOLIO</span>
+            <nav style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center;">
+                <button onclick="goToSlide(1)" data-i18n="nav_about" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:#B31A24;font-family:'Plus Jakarta Sans',sans-serif;">About</button>
+                <button onclick="goToSlide(2)" data-i18n="nav_journey" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:rgba(30,30,30,0.5);font-family:'Plus Jakarta Sans',sans-serif;">Journey</button>
+                <button onclick="goToSlide(3)" data-i18n="nav_work" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:rgba(30,30,30,0.5);font-family:'Plus Jakarta Sans',sans-serif;">Work Experience</button>
+                <button onclick="goToSlide(7)" data-i18n="nav_achievements" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:rgba(30,30,30,0.5);font-family:'Plus Jakarta Sans',sans-serif;">Achievements</button>
+                <button onclick="goToSlide(8)" data-i18n="nav_skills" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:rgba(30,30,30,0.5);font-family:'Plus Jakarta Sans',sans-serif;">Skills</button>
+                <button onclick="goToSlide(9)" data-i18n="nav_vision" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:rgba(30,30,30,0.5);font-family:'Plus Jakarta Sans',sans-serif;">Career Vision</button>
+                <button onclick="goToSlide(10)" data-i18n="nav_contact" style="background:none;border:none;cursor:pointer;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:rgba(30,30,30,0.5);font-family:'Plus Jakarta Sans',sans-serif;">Contact</button>
+                <div class="lang-dropdown" style="position:relative;border-left:1px solid rgba(179,26,36,0.2);padding-left:1rem;">
+                    <button id="langDropBtn" onclick="toggleLangDrop(event)" class="lang-btn active-lang" title="Chọn ngôn ngữ" style="display:flex;align-items:center;gap:4px;">
+                        <span id="langDropLabel">VNS</span>
+                        <svg width="7" height="5" viewBox="0 0 7 5" fill="currentColor" style="opacity:0.7;flex-shrink:0;transition:transform 0.2s;" id="langDropArrow"><path d="M3.5 5L0 0h7z"/></svg>
+                    </button>
+                    <div id="langDropMenu" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:white;border:1.5px solid rgba(179,26,36,0.18);border-radius:8px;overflow:hidden;z-index:200;min-width:58px;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+                        <button onclick="chooseLang('vi')" class="lang-option active-opt" id="lopt_vi">VNS</button>
+                        <button onclick="chooseLang('en')" class="lang-option" id="lopt_en">ENG</button>
+                        <button onclick="chooseLang('cn')" class="lang-option" id="lopt_cn">CN</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- FLOATING EDITING NOTIFICATION BAR -->
+    <div id="editNotification" class="fixed top-16 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-white font-semibold text-sm py-2 px-6 rounded-full shadow-lg z-50 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+        <i class="fa-solid fa-circle-check"></i> Chế độ chỉnh sửa đã bật! Nhấn trực tiếp vào bất kỳ chữ nào để sửa.
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <main class="pt-20 pb-24 min-h-screen">
+        <div id="portfolioContainer" class="max-w-6xl mx-auto px-4">
+
+            <div id="slidesWrapper" class="slide-container flex flex-col gap-16 md:gap-24">
+
+                <!-- ==================== SLIDE 1: TRANG BÌA ==================== -->
+                <section id="slide-0" class="slide-item" style="position:relative; min-height:85vh; background:#ffffff; border-radius:1.5rem; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 8px 40px rgba(0,0,0,0.10); border:1px solid rgba(179,26,36,0.08);">
+
+                    <!-- Photo: chỉ fade trái để blend với text, chủ thể nổi bật -->
+                    <div id="coverPhoto" style="position:absolute; right:0; top:68px; bottom:54px; width:58%; pointer-events:none; z-index:1;">
+                        <img src="image/9d171256-5d53-4482-8b5c-a38731db6858.jpg"
+                             alt="Nguyễn Thị Mỹ Diệu"
+                             style="width:100%; height:100%; object-fit:cover; object-position:left top; filter:contrast(1.05);">
+                        <!-- fade rìa trái rất hẹp, dừng trước khi chạm người -->
+                        <div style="position:absolute; inset:0; background:linear-gradient(to right, #ffffff 0%, rgba(255,255,255,0.7) 6%, transparent 14%);"></div>
+                    </div>
+
+                    <!-- All content -->
+                    <div id="coverContent" style="position:relative; z-index:10; display:flex; flex-direction:column; flex:1; padding:2.5rem 3rem;">
+
+                        <!-- Main content -->
+                        <div id="coverTextArea" style="flex:1; display:flex; flex-direction:column; justify-content:center; padding:2rem 0; max-width:55%;">
+
+                            <!-- PORTFOLIO -->
+                            <h1 style="font-family:Montserrat,sans-serif; font-weight:900; text-transform:uppercase; color:#B31A24; line-height:0.88; letter-spacing:-0.03em; font-size:clamp(5rem,12vw,9.5rem); user-select:none;">
+                                PORT<br>FOLIO
+                            </h1>
+
+                            <!-- Name + quote -->
+                            <div style="margin-top:2rem; display:flex; align-items:flex-start; gap:0.75rem;">
+                                <svg style="width:24px;height:24px;flex-shrink:0;margin-top:4px;" fill="none" stroke="#B31A24" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                </svg>
+                                <div>
+                                    <h2 class="editable" contenteditable="false" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:900; color:#1E1E1E; text-transform:uppercase; letter-spacing:-0.01em; font-size:1.3rem; line-height:1.1;">
+                                        NGUYỄN THỊ MỸ DIỆU
+                                    </h2>
+                                    <p class="editable" data-i18n="cover_role" contenteditable="false" style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; color:#B31A24; text-transform:uppercase; letter-spacing:0.18em; font-size:0.7rem; margin-top:0.4rem;">
+                                        Livestream
+                                    </p>
+                                    <p class="editable" data-i18n="cover_quote" contenteditable="false" style="font-family:'Plus Jakarta Sans',sans-serif; color:#555; font-style:italic; line-height:1.65; font-size:0.75rem; margin-top:0.6rem; max-width:26rem;">
+                                        "Đúng nền tảng - Vững kịch bản - Chắc doanh số"
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding-top:1rem; border-top:1px solid rgba(179,26,36,0.1); font-size:11px;">
+                            <span style="color:rgba(30,30,30,0.35); font-family:'Plus Jakarta Sans',sans-serif;">© 2026 NGUYỄN THỊ MỸ DIỆU</span>
+                            <span></span>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 2: GIỚI THIỆU BẢN THÂN ==================== -->
+                <section id="slide-2" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col justify-between relative transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">02</span>
+                            <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_about_label">My Profile</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+                        <div class="lg:col-span-5 flex justify-center">
+                            <div class="relative w-80 h-80 md:w-96 md:h-96 lg:w-[26rem] lg:h-[26rem]">
+                                <div class="absolute inset-4 border-4 border-brandRed rounded-3xl transform rotate-3"></div>
+                                <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border-2 border-brandRed/30">
+                                    <img src="images/award/YEP 2025 2.jpg" alt="Nguyễn Thị Mỹ Diệu" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:contrast(1.08) saturate(1.1);image-rendering:high-quality;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-7 space-y-4">
+                            <h3 class="super-title text-4xl md:text-5xl text-brandRed font-black leading-tight editable" contenteditable="false">
+                                NGUYỄN THỊ MỸ DIỆU
+                            </h3>
+                            <h4 class="text-lg font-bold text-brandDark uppercase tracking-wider editable" data-i18n="about_subtitle" contenteditable="false">
+                                🌟 "Chạm - Đúng - Đủ"
+                            </h4>
+                            <p class="text-sm text-gray-600 leading-relaxed editable" data-i18n-html="about_desc" contenteditable="false">
+                                Xin chào, mình là <strong>Nguyễn Thị Mỹ Diệu</strong> — một Leader Livestream tràn ngập năng lượng và sự nhạy bén sáng tạo. Với kinh nghiệm thực chiến trong lĩnh vực Ecommerce và Host Livestream, mình nhận thức sâu sắc rằng một phiên live chuyển đổi cao không chỉ cần người dẫn giỏi — mà cần cả chiến lược nội dung, kịch bản chặt chẽ và khả năng kéo đúng cảm xúc khách hàng vào đúng thời điểm. Triết lý mình theo đuổi xuyên suốt:
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
+                                <div class="bg-brandCream p-4 rounded-xl border-l-4 border-brandRed">
+                                    <h5 class="font-extrabold text-brandRed text-sm uppercase" data-i18n="cham_title">CHẠM</h5>
+                                    <p class="text-xs text-gray-600 mt-1" data-i18n="cham_desc">Chạm sâu sắc vào đúng mạch cảm xúc khách hàng.</p>
+                                </div>
+                                <div class="bg-brandCream p-4 rounded-xl border-l-4 border-brandRed">
+                                    <h5 class="font-extrabold text-brandRed text-sm uppercase" data-i18n="dung_title">ĐÚNG</h5>
+                                    <p class="text-xs text-gray-600 mt-1" data-i18n="dung_desc">Đúng câu chuyện, đúng giá trị cốt lõi của Brand.</p>
+                                </div>
+                                <div class="bg-brandCream p-4 rounded-xl border-l-4 border-brandRed">
+                                    <h5 class="font-extrabold text-brandRed text-sm uppercase" data-i18n="du_title">ĐỦ</h5>
+                                    <p class="text-xs text-gray-600 mt-1" data-i18n="du_desc">Đủ lượng thông tin cần thiết kích thích chuyển đổi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-brandRed/10">
+                        <span data-i18n="about_footer">GIỚI THIỆU BẢN THÂN</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 4: KINH NGHIỆM LÀM VIỆC ==================== -->
+                <section id="slide-3" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col justify-between relative transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">03</span>
+                            <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="journey_label">Work Experience</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+                        <div class="lg:col-span-7 relative border-l-2 border-brandRed/30 pl-6 ml-4 py-2 space-y-6">
+                            <div class="relative group">
+                                <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brandRed border-4 border-white group-hover:scale-125 transition-transform"></div>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                    <h4 class="font-bold text-base text-brandRed uppercase editable" contenteditable="false">MIA.VN — THƯƠNG HIỆU HÀNH LÝ</h4>
+                                    <span class="text-xs bg-brandRed/10 text-brandRed font-extrabold px-3 py-1 rounded-full whitespace-nowrap editable" data-i18n="journey_mia_date" contenteditable="false">10/2024 – Hiện tại</span>
+                                </div>
+                                <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider mt-0.5 editable" data-i18n="journey_mia_role" contenteditable="false">Lead Team Livestream & TikTok Ecommerce</p>
+                                <p class="text-xs text-gray-500 mt-1 editable" data-i18n="journey_mia_desc" contenteditable="false">Vận hành chiến dịch GMVMax, Host Livestream, TikTok/Facebook Ads, quản lý & đào tạo team livestream.</p>
+                            </div>
+
+                            <div class="relative group">
+                                <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brandRed border-4 border-white group-hover:scale-125 transition-transform"></div>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                    <h4 class="font-bold text-base text-brandRed uppercase editable" contenteditable="false">CTV LIVESTREAM — FREELANCE</h4>
+                                    <span class="text-xs bg-brandRed/10 text-brandRed font-extrabold px-3 py-1 rounded-full whitespace-nowrap editable" contenteditable="false">04/2024 – 09/2024</span>
+                                </div>
+                                <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider mt-0.5 editable" data-i18n="journey_ctv_brand" contenteditable="false">Sicoli, Guiaruan & nhiều brand khác</p>
+                                <p class="text-xs text-gray-500 mt-1 editable" data-i18n="journey_ctv_desc" contenteditable="false">Host & Seller trực tiếp trên TikTok Shop và Shopee Live.</p>
+                            </div>
+
+                            <div class="relative group">
+                                <div class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brandRed border-4 border-white group-hover:scale-125 transition-transform"></div>
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                    <h4 class="font-bold text-base text-brandRed uppercase editable" contenteditable="false">JUNE SUN YVAN — SKINTIFIC.VN</h4>
+                                    <span class="text-xs bg-brandRed/10 text-brandRed font-extrabold px-3 py-1 rounded-full whitespace-nowrap editable" contenteditable="false">03/2023 – 03/2024</span>
+                                </div>
+                                <p class="text-xs font-semibold text-gray-700 uppercase tracking-wider mt-0.5 editable" data-i18n="journey_jsy_role" contenteditable="false">Nhân viên Livestream — Mỹ phẩm</p>
+                                <p class="text-xs text-gray-500 mt-1 editable" data-i18n="journey_jsy_desc" contenteditable="false">Seller tư vấn, Host điều phối phòng live, phân tích phản hồi & đóng góp ý tưởng.</p>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 flex justify-center">
+                            <div class="relative w-64 h-64 md:w-80 md:h-80 group">
+                                <div class="absolute inset-0 border-4 border-brandRed rounded-3xl transform -rotate-3 scale-95 transition-transform group-hover:rotate-0"></div>
+                                <div class="absolute inset-0 rounded-3xl overflow-hidden shadow-lg border border-brandRed/20">
+                                    <img src="images/award/yep2025-mia-event.jpg" alt="YEP 2025" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:contrast(1.05) saturate(1.05);">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-brandRed/10">
+                        <span data-i18n="journey_footer">HÀNH TRÌNH SỰ NGHIỆP</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 5: BRAND A ==================== -->
+                <section id="slide-4" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col justify-between relative overflow-hidden transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">04</span>
+                            <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_mia_label">Kinh Nghiệm Thực Chiến</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+                        <div class="lg:col-span-7 space-y-3">
+                            <!-- Tab buttons -->
+                            <div class="flex gap-2">
+                                <button id="vTabMia" data-i18n="tab_mia" onclick="switchVTab('mia')" class="px-4 py-1.5 rounded-full text-xs font-bold bg-brandRed text-white transition-all">📦 MIA Livestream</button>
+                                <button id="vTabVj"  data-i18n="tab_vj" onclick="switchVTab('vj')"  class="px-4 py-1.5 rounded-full text-xs font-bold bg-brandCream text-brandRed border border-brandRed/30 transition-all">🎤 VJ Booking</button>
+                            </div>
+
+                            <!-- MIA videos -->
+                            <div id="vGroupMia" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                    <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="metadata">
+                                        <source src="video/62d00a0f-7314-46dc-bb45-1e355776a097.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                    <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="metadata">
+                                        <source src="video/c9bea248-1633-4404-aae7-8f7e4e91e63e.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                    <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="metadata">
+                                        <source src="video/d5d58775-6402-48c1-96b3-c3059ce365c3.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
+
+                            <!-- VJ videos -->
+                            <div id="vGroupVj" class="grid grid-cols-1 sm:grid-cols-3 gap-3 hidden">
+                                <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                    <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="none" poster="images/photo/VJ 1.png">
+                                        <source src="video/VJ 1.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                    <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="none" poster="images/photo/VJ 2.png">
+                                        <source src="video/VJ 2.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                                <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                    <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="none" poster="images/photo/VJ 3.png">
+                                        <source src="video/VJ 3.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 space-y-4">
+                            <h3 class="super-title text-4xl md:text-5xl text-brandRed font-black leading-tight">MIA.VN</h3>
+                            <div class="bg-brandCream p-1 px-3 rounded text-xs font-bold text-gray-700 inline-block editable" data-i18n="mia_platform" contenteditable="false">
+                                TikTok Shop — Vali & Hành lý du lịch
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-sm text-brandDark uppercase tracking-wider mb-2" data-i18n="mia_scope_header">Scope of work (10/2024 – Hiện tại)</h4>
+                                <ul class="space-y-1.5 text-xs text-gray-600">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="mia_scope_1">Lên deal list & chiến lược phiên live hàng tháng, phối hợp cùng các phòng ban</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="mia_scope_2">Viết kịch bản live, thiết kế minigame & flash sale để kéo tương tác và chốt đơn</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="mia_scope_3">Host Livestream TikTok, Shopee, Facebook,... — điều phối phòng live, xử lý tình huống thực chiến</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="mia_scope_4">Tuyển dụng, training & quản lý team livestream nội bộ</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="mia_scope_5">Sản xuất VJ Booking video: review sản phẩm, unboxing & content ngắn viral</span></li>
+                                    <li class="flex items-start gap-2 mt-3 bg-brandRed text-white px-3 py-2 rounded-xl font-extrabold text-xs">
+                                        <i class="fa-solid fa-fire mt-0.5 flex-shrink-0"></i>
+                                        <span data-i18n-html="mia_revenue_badge">Doanh thu cá nhân xấp xỉ <span class="underline underline-offset-2">600tr – 1 tỷ / tháng</span></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button onclick="goToSlide(5)" class="mt-4 flex items-center gap-2 px-5 py-2.5 bg-brandRed text-white text-xs font-bold rounded-full hover:bg-brandRedHover transition-colors shadow">
+                                <i class="fa-solid fa-arrow-right"></i> <span data-i18n="mia_btn_larita">Dự án Larita</span>
+                            </button>
+                        </div>
+                    </div>
+                    <script>
+                        function switchVTab(tab) {
+                            const isMia = tab === 'mia';
+                            document.getElementById('vGroupMia').classList.toggle('hidden', !isMia);
+                            document.getElementById('vGroupVj').classList.toggle('hidden', isMia);
+                            document.getElementById('vTabMia').className = `px-4 py-1.5 rounded-full text-xs font-bold transition-all ${isMia ? 'bg-brandRed text-white' : 'bg-brandCream text-brandRed border border-brandRed/30'}`;
+                            document.getElementById('vTabVj').className  = `px-4 py-1.5 rounded-full text-xs font-bold transition-all ${!isMia ? 'bg-brandRed text-white' : 'bg-brandCream text-brandRed border border-brandRed/30'}`;
+                        }
+                    </script>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-brandRed/10">
+                        <span data-i18n="mia_footer">KINH NGHIỆM THỰC CHIẾN — MIA.VN</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 4B: ALBUM ẢNH ==================== -->
+                <section id="slide-4b" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col gap-6 relative transition-all duration-300">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">05</span>
+                        <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_album_label">Album Ảnh Hậu Trường</span>
+                    </div>
+
+                    <!-- Concept Livestream -->
+                    <div>
+                        <p class="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-2">✦ Concept Livestream</p>
+
+                        <!-- Row 1: 4 ảnh tự nhiên -->
+                        <div class="album-row-4" style="display:grid; grid-template-columns:repeat(4,1fr); gap:0.5rem; margin-bottom:0.5rem;">
+                            <img src="images/albulm4/Concept/Tiếp viên hàng không.jpg"      data-caption="Tiếp viên hàng không"      onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity">
+                            <img src="images/albulm4/Concept/Phim Đại chiến trên không.jpg" data-caption="Phim Đại chiến trên không" onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity">
+                            <img src="images/albulm4/Concept/Học sinh.jpg"                   data-caption="Học sinh"                   onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity">
+                            <img src="images/albulm4/Concept/xăng.jpg"                      data-caption="Xăng"                      onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity">
+                        </div>
+
+                        <!-- Row 2: Sự kiện | Cừu (span 2, lớn) | Tấm cám — stretch fill -->
+                        <div class="album-row-featured" style="display:grid; grid-template-columns:1fr 2fr 1fr; gap:0.5rem; margin-bottom:0.5rem;">
+                            <div style="display:flex; align-self:stretch;">
+                                <img src="images/albulm4/Concept/Sự kiện Tiktok.jpg" data-caption="Sự kiện Tiktok" onclick="openLb(this)" style="width:100%;height:100%;object-fit:cover;border-radius:0.75rem;cursor:pointer;" class="hover:opacity-90 transition-opacity">
+                            </div>
+                            <img src="images/albulm4/Concept/Cừu.jpg"       data-caption="Cừu"       onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity">
+                            <div style="display:flex; align-self:stretch;">
+                                <img src="images/albulm4/Concept/Tấm cám.jpg" data-caption="Tấm cám" onclick="openLb(this)" style="width:100%;height:100%;object-fit:cover;border-radius:0.75rem;cursor:pointer;" class="hover:opacity-90 transition-opacity">
+                            </div>
+                        </div>
+
+                        <!-- Row 3: 3 Collab to bằng nhau -->
+                        <div class="album-row-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem;">
+                            <img src="images/albulm4/Concept/Collab Tony Việt.jpg"              data-caption="Collab Tony Việt"              onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity" style="aspect-ratio:1;object-fit:cover;">
+                            <img src="images/albulm4/Concept/Collab Như Thuần  .jpg"            data-caption="Collab Như Thuần"              onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity" style="aspect-ratio:1;object-fit:cover;">
+                            <img src="images/albulm4/Concept/Collab Vũ Ngọc Anh vs Gil Lê.jpg" data-caption="Collab Vũ Ngọc Anh vs Gil Lê" onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity" style="aspect-ratio:1;object-fit:cover;">
+                        </div>
+                    </div>
+
+                    <!-- Noel + Tết to bằng nhau -->
+                    <div class="album-row-3" style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.5rem;">
+                        <img src="images/albulm4/Noel/Xe bus quảng bá vali.jpg"   data-caption="Noel — Xe bus quảng bá vali"   onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity" style="aspect-ratio:4/3;object-fit:cover;">
+                        <img src="images/albulm4/Noel/Xe Bus quảng bá vali 2.jpg" data-caption="Noel — Xe Bus quảng bá vali 2" onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity" style="aspect-ratio:4/3;object-fit:cover;">
+                        <img src="images/albulm4/Tết/Tết 2026.jpg"                data-caption="Tết 2026"                       onclick="openLb(this)" class="w-full rounded-xl cursor-pointer hover:opacity-90 transition-opacity" style="aspect-ratio:4/3;object-fit:cover;">
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-2 border-t border-brandRed/10">
+                        <span data-i18n="album_footer">ALBUM ẢNH HẬU TRƯỜNG</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 5b: LARITA ==================== -->
+                <section id="slide-larita" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col justify-between relative transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">04+</span>
+                            <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_larita_label">Kinh Nghiệm Thực Chiến — Larita</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+                        <div class="lg:col-span-7 rounded-2xl overflow-hidden border border-brandRed/10 shadow-lg" style="max-height:480px;">
+                            <img src="images/photo/LARITA.png" alt="Larita Official" style="width:100%;height:100%;object-fit:cover;object-position:top;">
+                        </div>
+
+                        <div class="lg:col-span-5 space-y-4">
+                            <h3 class="super-title text-4xl md:text-5xl text-brandRed font-black leading-tight">LARITA</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <div class="bg-brandCream p-1 px-3 rounded text-xs font-bold text-gray-700 inline-block">
+                                    E-Commerce Product Manager
+                                </div>
+                                <div class="bg-brandRed/10 p-1 px-3 rounded text-xs font-bold text-brandRed inline-block" data-i18n="larita_tag2">
+                                    Thương hiệu Vali — MIA Retail
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-sm text-brandDark uppercase tracking-wider mb-2" data-i18n="larita_scope_header">Scope of work (02/2026 – 05/2026)</h4>
+                                <ul class="space-y-1.5 text-xs text-gray-600">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="larita_scope_1">Ra mắt thương hiệu vali Larita đồng thời trên TikTok Shop, Shopee, Website...</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="larita_scope_2">Lên chiến lược nội dung, deal list & kịch bản phiên live cho từng giai đoạn campaign ra mắt</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="larita_scope_3">Phân tích hành vi khách hàng, tối ưu tỷ lệ chuyển đổi & xây dựng chiến lược giữ chân</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="larita_scope_4">Hỗ trợ phối hợp 6–7 team: Nội dung, Design, Ecom, Digital Marketing, Vận hành & Sales Offline</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="larita_scope_5">Theo dõi GMV & tỷ lệ chuyển đổi theo từng phiên, đề xuất cải tiến dựa trên dữ liệu thực tế</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-brandRed/10">
+                        <span data-i18n="larita_footer">DỰ ÁN LARITA — MIA RETAIL</span>
+                        <span>02/2026 – 05/2026</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 6: BRAND B ==================== -->
+                <section id="slide-5" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col justify-between relative transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">05</span>
+                            <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_ctv_label">CTV Freelance</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+                        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="metadata">
+                                    <source src="video/CTV CC.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="metadata">
+                                    <source src="video/ctv-my-pham.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="bg-brandCream rounded-2xl p-2 border border-brandRed/10 hover:shadow-lg transition-shadow">
+                                <video class="w-full rounded-xl aspect-[9/16] object-cover" controls playsinline preload="metadata">
+                                    <source src="video/ctv-nuoc-giat.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 space-y-4">
+                            <h3 class="super-title text-4xl md:text-5xl text-brandRed font-black leading-tight">FREELANCE LIVESTREAM</h3>
+                            <div>
+                                <h4 class="font-extrabold text-sm text-brandDark uppercase tracking-wider mb-2" data-i18n="ctv_scope_header">Scope of work</h4>
+                                <ul class="space-y-1.5 text-xs text-gray-600">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="ctv_scope_1">Host Livestream đa nền tảng: TikTok, Shopee, Facebook, Lazada — linh hoạt ngành hàng</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="ctv_scope_2">Thuyết phục & tư vấn sản phẩm trực tiếp, dẫn dắt phòng live chốt đơn hiệu quả</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="ctv_scope_3">Giữ tương tác, kéo traffic & tạo đỉnh chuyển đổi trong suốt phiên live</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="ctv_scope_4">Review kết quả từng phiên, đề xuất điều chỉnh kịch bản & cách tiếp cận sản phẩm</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-square-check text-brandRed mt-0.5 flex-shrink-0"></i> <span data-i18n="ctv_scope_5">Ngành hàng đa dạng: mỹ phẩm, thời trang, gia dụng...</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-brandRed/10">
+                        <span data-i18n="ctv_footer">FREELANCE LIVESTREAM</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 7: AWARDS ==================== -->
+                <section id="slide-6" class="slide-item bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col relative transition-all duration-300" style="height:88vh; max-height:900px; overflow:hidden; gap:0.75rem;">
+                    <!-- Header -->
+                    <div class="flex items-center gap-3" style="flex-shrink:0;">
+                        <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">06</span>
+                        <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_awards_label">Awards & Achievements</span>
+                    </div>
+
+                    <!-- Constrained content wrapper: prevents photos from getting too wide on large screens -->
+                    <div style="flex:1; min-height:0; max-width:820px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:0.75rem;">
+
+                    <!-- Tab buttons -->
+                    <div class="flex gap-2" style="flex-shrink:0;">
+                        <button id="a6TabAward" data-i18n="awards_tab1" onclick="switchA6Tab('award')"
+                            class="px-5 py-2 rounded-full text-xs font-bold bg-brandRed text-white transition-all">
+                            🏆 Giải thưởng
+                        </button>
+                        <button id="a6TabRecord" data-i18n="awards_tab2" onclick="switchA6Tab('record')"
+                            class="px-5 py-2 rounded-full text-xs font-bold bg-brandCream text-brandRed border border-brandRed/30 transition-all">
+                            📊 Kỷ lục Doanh thu
+                        </button>
+                    </div>
+
+                    <!-- Panel 1: Award photos -->
+                    <div id="a6PanelAward" style="flex:1; min-height:0; display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; overflow:hidden;">
+                        <div style="display:grid; grid-template-rows:1fr 1fr; gap:0.5rem; min-height:0;">
+                            <div style="border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                                <img src="images/award/yep2025-6ty9.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                     data-caption="YEP 2025 — Doanh thu 6,9 tỷ đồng" alt="6.9 tỷ">
+                            </div>
+                            <div style="border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                                <img src="images/award/image.png" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                     data-caption="YEP 2025 — Cá Nhân Hiệu Suất Cao — Chiến Binh Livestream Xuất Sắc" alt="Group award">
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-rows:1fr 1fr 1fr; gap:0.5rem; min-height:0;">
+                            <div style="border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                                <img src="images/award/yep2025-lap-ky-luc.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                     data-caption="YEP 2025 — Lập Kỉ Lục Doanh Thu & Tăng Trưởng TikTok 2025" alt="Lập kỉ lục">
+                            </div>
+                            <div style="border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                                <img src="images/award/yep2025-nhan-cup.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                     data-caption="YEP 2025 — Nhận Cup Chiến Binh Livestream Xuất Sắc MIA 2025" alt="Nhận cup">
+                            </div>
+                            <div style="border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                                <img src="images/award/yep2025-cup-chien-binh.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                     data-caption="YEP 2025 — Cup Chiến Binh Livestream Xuất Sắc 2025" alt="Cup chiến binh">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Revenue records (hidden by default) -->
+                    <div id="a6PanelRecord" style="flex:1; min-height:0; display:none; grid-template-columns:repeat(6,1fr); gap:0.5rem; overflow:hidden;">
+                        <!-- Row 1: 3 images each span 2 cols -->
+                        <div style="grid-column:span 2; border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                            <img src="images/award/z-100tr-2h-gruadian.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                 data-caption="100tr trong 2 tiếng — Mỹ phẩm Gruadian" alt="100tr Gruadian">
+                        </div>
+                        <div style="grid-column:span 2; border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                            <img src="images/award/z-100tr-2h-vali-mia.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                 data-caption="100tr trong 2 tiếng — Vali MIA" alt="100tr Vali MIA">
+                        </div>
+                        <div style="grid-column:span 2; border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                            <img src="images/award/z-200tr-2h-skintific.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                 data-caption="200tr trong 2 tiếng — Mỹ phẩm Skintific" alt="200tr Skintific">
+                        </div>
+                        <!-- Row 2: 2 images each span 3 cols -->
+                        <div style="grid-column:span 3; border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                            <img src="images/award/z-200tr-3h-vali-mia.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                 data-caption="200tr trong 3 tiếng — Vali MIA" alt="200tr Vali MIA">
+                        </div>
+                        <div style="grid-column:span 3; border-radius:0.75rem; overflow:hidden; cursor:pointer; min-height:0;" onclick="openLb(this.querySelector('img'))">
+                            <img src="images/award/z-300tr-4h-gruadian.jpg" class="w-full h-full object-cover hover:opacity-90 transition-opacity"
+                                 data-caption="300tr trong 4 tiếng — Mỹ phẩm Gruadian" alt="300tr Gruadian">
+                        </div>
+                    </div>
+
+                    </div><!-- end constrained wrapper -->
+
+                    <!-- Footer -->
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-2 border-t border-brandRed/10" style="flex-shrink:0;">
+                        <span data-i18n="awards_footer">THÀNH TỰU & GIẢI THƯỞNG</span>
+                    </div>
+
+                    <script>
+                        function switchA6Tab(tab) {
+                            const isAward = tab === 'award';
+                            const pAward = document.getElementById('a6PanelAward');
+                            const pRecord = document.getElementById('a6PanelRecord');
+                            pAward.style.display = isAward ? 'grid' : 'none';
+                            pRecord.style.display = isAward ? 'none' : 'grid';
+                            document.getElementById('a6TabAward').className  = `px-5 py-2 rounded-full text-xs font-bold transition-all ${isAward  ? 'bg-brandRed text-white' : 'bg-brandCream text-brandRed border border-brandRed/30'}`;
+                            document.getElementById('a6TabRecord').className = `px-5 py-2 rounded-full text-xs font-bold transition-all ${!isAward ? 'bg-brandRed text-white' : 'bg-brandCream text-brandRed border border-brandRed/30'}`;
+                        }
+                    </script>
+                </section>
+
+                <!-- ==================== SLIDE 8: SKILLS ==================== -->
+                <section id="slide-7" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col justify-between relative transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">07</span>
+                            <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_skills_label">Skills & Expertise</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-2">
+                        <div class="lg:col-span-6 space-y-4">
+                            <h4 class="font-heading font-black text-brandRed text-xl uppercase tracking-wide">
+                                <i class="fa-solid fa-bolt"></i> <span data-i18n="skills_heading1">Kỹ năng chuyên môn</span>
+                            </h4>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <div class="bg-brandRed text-white p-3 rounded-2xl flex flex-col items-center justify-center text-center shadow hover:-translate-y-1 transition-transform">
+                                    <i class="fa-solid fa-video text-base mb-1"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="skill_host_live">Host Livestream</span>
+                                </div>
+                                <div class="bg-brandRed text-white p-3 rounded-2xl flex flex-col items-center justify-center text-center shadow hover:-translate-y-1 transition-transform">
+                                    <i class="fa-solid fa-chart-line text-base mb-1"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="skill_gmv">GMV Strategy</span>
+                                </div>
+                                <div class="bg-brandRed text-white p-3 rounded-2xl flex flex-col items-center justify-center text-center shadow hover:-translate-y-1 transition-transform">
+                                    <i class="fa-solid fa-file-lines text-base mb-1"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="skill_script">Kịch bản Live</span>
+                                </div>
+                                <div class="bg-brandRed text-white p-3 rounded-2xl flex flex-col items-center justify-center text-center shadow hover:-translate-y-1 transition-transform">
+                                    <i class="fa-solid fa-cart-shopping text-base mb-1"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider">TikTok / Shopee</span>
+                                </div>
+                                <div class="bg-brandRed text-white p-3 rounded-2xl flex flex-col items-center justify-center text-center shadow hover:-translate-y-1 transition-transform">
+                                    <i class="fa-solid fa-users text-base mb-1"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider">KOC/KOL Booking</span>
+                                </div>
+                                <div class="bg-brandRed text-white p-3 rounded-2xl flex flex-col items-center justify-center text-center shadow hover:-translate-y-1 transition-transform">
+                                    <i class="fa-solid fa-user-tie text-base mb-1"></i>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider" data-i18n="skill_team">Team Training</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-6 space-y-4">
+                            <h4 class="font-heading font-black text-brandRed text-xl uppercase tracking-wide">
+                                <i class="fa-solid fa-star"></i> <span data-i18n="skills_heading2">Điểm mạnh cốt lõi</span>
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="bg-brandRed text-white p-4 rounded-xl flex items-start gap-3">
+                                    <i class="fa-solid fa-fire text-lg flex-shrink-0 mt-0.5"></i>
+                                    <div class="space-y-1">
+                                        <h5 class="font-extrabold text-sm" data-i18n="strength_title1">Live hơn 1.000 giờ thực chiến trong 1 năm</h5>
+                                        <p class="text-xs text-white/80" data-i18n-html="strength_desc1a">Doanh thu cá nhân <span class="font-extrabold underline underline-offset-2">600tr – 1 tỷ / tháng</span> tại MIA.vn</p>
+                                        <p class="text-xs text-white/80" data-i18n-html="strength_desc1b">Kỷ lục đạt hơn <span class="font-extrabold underline underline-offset-2">200tr trong 3 giờ</span> livestream</p>
+                                    </div>
+                                </div>
+                                <div class="bg-brandCream p-4 rounded-xl border-l-4 border-brandRed">
+                                    <h5 class="font-extrabold text-sm text-brandDark" data-i18n="strength_title2">✔ Nắm bắt tâm lý khách hàng</h5>
+                                    <p class="text-xs text-gray-500 mt-1" data-i18n="strength_desc2">Dẫn dắt cảm xúc người xem, tạo đỉnh tương tác & thúc đẩy chốt đơn đúng thời điểm.</p>
+                                </div>
+                                <div class="bg-brandCream p-4 rounded-xl border-l-4 border-brandRed">
+                                    <h5 class="font-extrabold text-sm text-brandDark" data-i18n="strength_title3">✔ Chịu áp lực & Chủ động</h5>
+                                    <p class="text-xs text-gray-500 mt-1" data-i18n="strength_desc3">Thích nghi nhanh trong môi trường tốc độ cao, luôn bám sát & vượt mục tiêu GMV.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-brandRed/10">
+                        <span data-i18n="skills_footer">KỸ NĂNG & ĐIỂM MẠNH</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 9: MỤC TIÊU ==================== -->
+                <section id="slide-8" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-brandRed/10 flex flex-col justify-between relative transition-all duration-300">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-xs font-black px-2 py-1 bg-brandRed text-white rounded">08</span>
+                            <span class="text-xs font-bold text-brandRed tracking-widest uppercase" data-i18n="slide_vision_label">Career Vision</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+                        <div class="lg:col-span-4 space-y-4">
+                            <h3 class="super-title text-4xl md:text-5xl text-brandRed font-black leading-tight" data-i18n="vision_title">LỘ TRÌNH</h3>
+                            <h4 class="text-base font-bold text-brandDark uppercase tracking-wider" data-i18n="vision_subtitle">Định hướng phát triển</h4>
+                            <blockquote class="border-l-4 border-brandRed pl-3 text-xs text-brandRed font-semibold leading-relaxed editable" data-i18n="vision_quote" contenteditable="false">
+                                "Đúng nền tảng — Vững kịch bản — Chắc doanh số."
+                            </blockquote>
+                            <p class="text-xs text-gray-500 italic">— Mỹ Diệu</p>
+                        </div>
+
+                        <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Stage 1 -->
+                            <div class="bg-brandRed text-white p-5 rounded-2xl relative">
+                                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mb-3">
+                                    <i class="fa-solid fa-video text-base"></i>
+                                </div>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white/60" data-i18n="vision_stage1_label">Hiện tại</span>
+                                <h5 class="font-extrabold text-sm uppercase mt-1">Lead Livestream</h5>
+                                <p class="text-xs text-white/80 mt-2 leading-relaxed" data-i18n="vision_stage1_desc">Dẫn dắt team, vận hành phòng live & tối ưu GMV đa nền tảng.</p>
+                            </div>
+                            <!-- Stage 2 -->
+                            <div class="bg-brandCream p-5 rounded-2xl border-2 border-brandRed/30 relative">
+                                <div class="w-10 h-10 rounded-full bg-brandRed/10 flex items-center justify-center text-brandRed mb-3">
+                                    <i class="fa-solid fa-rocket text-base"></i>
+                                </div>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-brandRed/60" data-i18n="vision_stage2_label">Dài hạn</span>
+                                <h5 class="font-extrabold text-sm text-brandDark uppercase mt-1">Ecommerce Manager</h5>
+                                <p class="text-xs text-gray-500 mt-2 leading-relaxed" data-i18n="vision_stage2_desc">Chiến lược đa kênh, quản lý vận hành & phát triển thương hiệu bền vững.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-brandRed/10">
+                        <span data-i18n="vision_footer">MỤC TIÊU & ĐỊNH HƯỚNG</span>
+                    </div>
+                </section>
+
+                <!-- ==================== SLIDE 10: LIÊN HỆ ==================== -->
+                <section id="slide-9" class="slide-item min-h-[75vh] md:min-h-[85vh] bg-brandRed rounded-3xl p-8 md:p-12 shadow-2xl border border-brandRedHover flex flex-col justify-between relative overflow-hidden text-brandCream transition-all duration-300">
+                    <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
+                    <div class="absolute -top-24 -right-24 w-72 h-72 bg-white/5 rounded-full blur-3xl"></div>
+
+                    <div class="flex justify-between items-center pb-4 border-b border-white/10 text-xs font-bold uppercase tracking-wider text-white/60">
+                        <span data-i18n="contact_header">Liên Hệ Trực Tiếp</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto py-4">
+                        <div class="lg:col-span-7 space-y-6">
+                            <h2 class="super-title text-5xl md:text-7xl text-white font-black leading-none">CONTACT<br>ME!</h2>
+                            <div class="space-y-4 pt-4">
+                                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl hover:bg-white/15 transition-all">
+                                    <i class="fa-solid fa-phone text-xl text-white"></i>
+                                    <div>
+                                        <p class="text-[10px] text-white/60 uppercase font-black tracking-wider" data-i18n="contact_phone_label">Phone Number</p>
+                                        <p class="text-base font-extrabold text-white editable" contenteditable="false">0942 964 102</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-2xl hover:bg-white/15 transition-all">
+                                    <i class="fa-solid fa-envelope text-xl text-white"></i>
+                                    <div>
+                                        <p class="text-[10px] text-white/60 uppercase font-black tracking-wider" data-i18n="contact_email_label">Email Address</p>
+                                        <p class="text-base font-extrabold text-white editable" contenteditable="false">mydieu442003@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 rounded-3xl overflow-hidden border border-white/10" style="aspect-ratio:3/4; max-height:380px;">
+                            <img src="images/award/YEP 2025.jpg" alt="YEP 2025" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center text-xs text-white/50 pt-4 border-t border-white/10">
+                        <span>© 2026 NGUYỄN THỊ MỸ DIỆU</span>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- SITE COPYRIGHT FOOTER -->
+    <footer style="text-align:center; padding:1.25rem 1rem; font-size:11px; color:rgba(30,30,30,0.35); font-family:'Plus Jakarta Sans',sans-serif; border-top:1px solid rgba(179,26,36,0.08); background:#F4F1EA; letter-spacing:0.04em;">
+        © 2026 <strong style="color:rgba(30,30,30,0.5);">Nguyễn Thị Mỹ Diệu</strong> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; Portfolio by NTMD
+    </footer>
+
+    <!-- FLOATING SLIDE NAVIGATION FOOTER (hidden) -->
+    <nav id="slideControls" class="hidden">
+        <div>
+            <button onclick="prevSlide()"></button>
+            <div id="slideCounter"></div>
+            <button onclick="nextSlide()">
+            </button>
+        </div>
+    </nav>
+
+    <!-- AI COPILOT FLOATING BUTTON -->
+    <div class="fixed bottom-20 right-6 z-50">
+        <button id="aiCopilotBtn" onclick="toggleAICopilot()" class="w-14 h-14 bg-gradient-to-tr from-brandRed to-brandRedHover text-white rounded-full shadow-2xl hover:scale-110 active:scale-95 flex items-center justify-center transition-all animate-bounce" title="Trò chuyện với AI Copilot">
+            <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+        </button>
+    </div>
+
+    <!-- AI Sidebar panel -->
+    <div id="aiSidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white border-l border-brandRed/10 shadow-2xl z-50 translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-4 bg-brandRed text-brandCream flex justify-between items-center border-b border-brandRedHover">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center"><i class="fa-solid fa-robot"></i></div>
+                <div>
+                    <h3 class="font-bold text-sm tracking-wide">Osin của Midiuxinhiu</h3>
+                    <p class="text-[10px] text-brandCream/70 font-medium">Chat với Osin của Mỹ Diệu</p>
+                </div>
+            </div>
+            <button onclick="toggleAICopilot()" class="w-8 h-8 rounded-full hover:bg-white/10 flex items-center justify-center transition-all">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 bg-brandCream/30">
+            <div id="panelQa" class="flex flex-col h-full">
+                <div id="aiChatMessages" class="flex-1 overflow-y-auto space-y-3 mb-4 text-xs pr-1">
+                    <div class="flex gap-2.5 items-start">
+                        <div class="w-6 h-6 rounded-full bg-brandRed text-white flex-shrink-0 flex items-center justify-center font-bold text-[9px]">MD</div>
+                        <div class="bg-white p-3 rounded-2xl border border-brandRed/10 shadow-sm max-w-[85%] leading-relaxed">
+                            Chào bạn! Mình là <strong>Trợ lý AI đại diện cho Mỹ Diệu</strong>. Hỏi mình về kinh nghiệm Livestream, TikTok Ecommerce, hay thành tích tại MIA.vn nhé!
+                        </div>
+                    </div>
+                </div>
+                <div class="relative mt-auto">
+                    <input id="aiChatInput" type="text" placeholder="Hỏi về Mỹ Diệu (vd: Tại sao nên tuyển Mỹ Diệu?)..." class="w-full pl-4 pr-12 py-3 bg-white border border-brandRed/20 rounded-2xl text-xs focus:ring-1 focus:ring-brandRed focus:border-brandRed focus:outline-none transition-all" onkeypress="handleChatKeyPress(event)">
+                    <button onclick="sendChatMessage()" class="absolute right-2 top-1.5 w-8 h-8 bg-brandRed text-white rounded-full flex items-center justify-center hover:bg-brandRedHover active:scale-95 transition-all">
+                        <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 11;
+        let viewMode = 'slide';
+        let editMode = false;
+        let isAiOpen = false;
+        let customApiKey = '';
+
+        window.onload = function() {
+            document.querySelectorAll('.slide-item').forEach(slide => { slide.style.display = 'flex'; });
+            updateControls();
+            switchLang('vi');
+        };
+
+        function toggleViewMode(mode) { setMode(mode); }
+
+        function setMode(mode) {
+            viewMode = mode;
+            const wrapper = document.getElementById('slidesWrapper');
+            const slideControls = document.getElementById('slideControls');
+            const btnSlide = document.getElementById('btnSlideMode');
+            const btnScroll = document.getElementById('btnScrollMode');
+            const slides = document.querySelectorAll('.slide-item');
+
+            if (mode === 'slide') {
+                wrapper.className = "slide-container flex flex-col gap-0";
+                slides.forEach((slide, idx) => { slide.style.display = idx === currentSlide ? 'flex' : 'none'; });
+                slideControls.style.transform = 'translateY(0)';
+                btnSlide.className = "flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brandRed text-white text-xs font-bold shadow-md transition-all";
+                btnScroll.className = "flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-brandRed/30 text-brandRed text-xs font-bold hover:bg-brandCream transition-all";
+            } else {
+                slides.forEach(slide => { slide.style.display = 'flex'; slide.style.marginBottom = '2.5rem'; });
+                wrapper.className = "slide-container flex flex-col gap-8";
+                slideControls.style.transform = 'translateY(100%)';
+                btnSlide.className = "flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white border border-brandRed/30 text-brandRed text-xs font-bold hover:bg-brandCream transition-all";
+                btnScroll.className = "flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brandRed text-white text-xs font-bold shadow-md transition-all";
+            }
+            updateControls();
+        }
+
+        function nextSlide() { if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1); }
+        function prevSlide() { if (currentSlide > 0) goToSlide(currentSlide - 1); }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            const slides = document.querySelectorAll('.slide-item');
+            if (slides[idx]) {
+                const headerH = (document.querySelector('header') || {offsetHeight: 0}).offsetHeight + 16;
+                const top = slides[idx].getBoundingClientRect().top + window.scrollY - headerH;
+                window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+            }
+            updateControls();
+        }
+
+        function updateControls() {
+            const counter = document.getElementById('slideCounter');
+            if (counter) counter.innerText = `Slide ${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function toggleEditMode() {
+            editMode = !editMode;
+            const editables = document.querySelectorAll('.editable');
+            const notification = document.getElementById('editNotification');
+            const editBtn = document.getElementById('btnEditMode');
+            const editBtnText = document.getElementById('editBtnText');
+            if (editMode) {
+                editables.forEach(el => { el.setAttribute('contenteditable', 'true'); el.classList.add('bg-emerald-50', 'border-b-2', 'border-emerald-400', 'p-1', 'rounded'); });
+                notification.classList.remove('opacity-0', 'pointer-events-none');
+                notification.classList.add('opacity-100');
+                editBtn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-700 text-white text-xs font-bold hover:bg-emerald-800 shadow-md transition-all";
+                editBtnText.innerText = "Khóa nội dung";
+            } else {
+                editables.forEach(el => { el.setAttribute('contenteditable', 'false'); el.classList.remove('bg-emerald-50', 'border-b-2', 'border-emerald-400', 'p-1', 'rounded'); });
+                notification.classList.remove('opacity-100');
+                notification.classList.add('opacity-0', 'pointer-events-none');
+                editBtn.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 shadow-md transition-all";
+                editBtnText.innerText = "Chỉnh sửa nhanh";
+            }
+        }
+
+        function toggleAICopilot() {
+            const sidebar = document.getElementById('aiSidebar');
+            isAiOpen = !isAiOpen;
+            sidebar.classList.toggle('translate-x-full', !isAiOpen);
+        }
+
+        let _chatCount = 0;
+        function sendChatMessage() {
+            const input = document.getElementById('aiChatInput');
+            const messageText = input.value.trim();
+            if (!messageText) return;
+            const chatMessages = document.getElementById('aiChatMessages');
+
+            chatMessages.innerHTML += `<div class="flex gap-2.5 items-start justify-end"><div class="bg-brandRed text-white p-3 rounded-2xl shadow-sm max-w-[85%] leading-relaxed">${messageText}</div><div class="w-6 h-6 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center text-[9px]"><i class="fa-solid fa-user"></i></div></div>`;
+            input.value = '';
+            _chatCount++;
+
+            const replies = [
+                'Midiuxinhiu nhất trần gian đang phát triển sản phẩm này vui lòng thử lại sau nha 🥰',
+                'Đọc lại câu hỏi đầu tiên của Midiuxinhiu nha 😄',
+                'Bớt hỏi đi, Midiuxinhiu mệt nhaa 😮‍💨',
+                'Sao lì quá dị 😤',
+            ];
+            const reply = _chatCount <= 4 ? replies[_chatCount - 1] : replies[1];
+
+            setTimeout(() => {
+                chatMessages.innerHTML += `<div class="flex gap-2.5 items-start"><div class="w-6 h-6 rounded-full bg-brandRed text-white flex-shrink-0 flex items-center justify-center font-bold text-[9px]">MD</div><div class="bg-white p-3 rounded-2xl border border-brandRed/10 shadow-sm max-w-[85%] leading-relaxed">${reply}</div></div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 600);
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleChatKeyPress(e) { if (e.key === 'Enter') sendChatMessage(); }
+
+        // ==================== LANGUAGE SWITCHER ====================
+        const translations = {
+            vi: {
+                // Nav
+                nav_about: 'Giới Thiệu', nav_journey: 'Hành Trình', nav_work: 'Kinh Nghiệm',
+                nav_achievements: 'Thành Tích', nav_skills: 'Kỹ Năng',
+                nav_vision: 'Định Hướng', nav_contact: 'Liên Hệ',
+                // Cover
+                cover_role: 'Livestream',
+                cover_quote: '"Đúng nền tảng - Vững kịch bản - Chắc doanh số"',
+                // Slide 2 — About
+                slide_about_label: 'Hồ Sơ Cá Nhân',
+                about_subtitle: '🌟 "Chạm - Đúng - Đủ"',
+                about_desc: 'Xin chào, mình là <strong>Nguyễn Thị Mỹ Diệu</strong> — một Leader Livestream tràn ngập năng lượng và sự nhạy bén sáng tạo. Với kinh nghiệm thực chiến trong lĩnh vực Ecommerce và Host Livestream, mình nhận thức sâu sắc rằng một phiên live chuyển đổi cao không chỉ cần người dẫn giỏi — mà cần cả chiến lược nội dung, kịch bản chặt chẽ và khả năng kéo đúng cảm xúc khách hàng vào đúng thời điểm. Triết lý mình theo đuổi xuyên suốt:',
+                cham_title: 'CHẠM', cham_desc: 'Chạm sâu sắc vào đúng mạch cảm xúc khách hàng.',
+                dung_title: 'ĐÚNG', dung_desc: 'Đúng câu chuyện, đúng giá trị cốt lõi của Brand.',
+                du_title: 'ĐỦ', du_desc: 'Đủ lượng thông tin cần thiết kích thích chuyển đổi.',
+                about_footer: 'GIỚI THIỆU BẢN THÂN',
+                // Slide 3 — Journey
+                journey_label: 'Kinh Nghiệm Làm Việc',
+                journey_mia_date: '10/2024 – Hiện tại',
+                journey_mia_role: 'Lead Team Livestream & TikTok Ecommerce',
+                journey_mia_desc: 'Vận hành chiến dịch GMVMax, Host Livestream, TikTok/Facebook Ads, quản lý & đào tạo team livestream.',
+                journey_ctv_brand: 'Sicoli, Guiaruan & nhiều brand khác',
+                journey_ctv_desc: 'Host & Seller trực tiếp trên TikTok Shop và Shopee Live.',
+                journey_jsy_role: 'Nhân viên Livestream — Mỹ phẩm',
+                journey_jsy_desc: 'Seller tư vấn, Host điều phối phòng live, phân tích phản hồi & đóng góp ý tưởng.',
+                journey_footer: 'HÀNH TRÌNH SỰ NGHIỆP',
+                // Slide 4 — MIA
+                slide_mia_label: 'Kinh Nghiệm Thực Chiến',
+                tab_mia: '📦 MIA Livestream', tab_vj: '🎤 VJ Booking',
+                mia_platform: 'TikTok Shop — Vali & Hành lý du lịch',
+                mia_scope_header: 'Phạm vi công việc (10/2024 – Hiện tại)',
+                mia_scope_1: 'Lên deal list & chiến lược phiên live hàng tháng, phối hợp cùng các phòng ban',
+                mia_scope_2: 'Viết kịch bản live, thiết kế minigame & flash sale để kéo tương tác và chốt đơn',
+                mia_scope_3: 'Host Livestream TikTok, Shopee, Facebook,... — điều phối phòng live, xử lý tình huống thực chiến',
+                mia_scope_4: 'Tuyển dụng, training & quản lý team livestream nội bộ',
+                mia_scope_5: 'Sản xuất VJ Booking video: review sản phẩm, unboxing & content ngắn viral',
+                mia_revenue_badge: 'Doanh thu cá nhân xấp xỉ <span class="underline underline-offset-2">600tr – 1 tỷ / tháng</span>',
+                mia_btn_larita: 'Dự án Larita',
+                mia_footer: 'KINH NGHIỆM THỰC CHIẾN — MIA.VN',
+                // Slide 4b — Album
+                slide_album_label: 'Album Ảnh Hậu Trường', album_footer: 'ALBUM ẢNH HẬU TRƯỜNG',
+                // Slide Larita
+                slide_larita_label: 'Kinh Nghiệm Thực Chiến — Larita',
+                larita_tag2: 'Thương hiệu Vali — MIA Retail',
+                larita_scope_header: 'Scope of work (02/2026 – 05/2026)',
+                larita_scope_1: 'Ra mắt thương hiệu vali Larita đồng thời trên TikTok Shop, Shopee, Website...',
+                larita_scope_2: 'Lên chiến lược nội dung, deal list & kịch bản phiên live cho từng giai đoạn campaign ra mắt',
+                larita_scope_3: 'Phân tích hành vi khách hàng, tối ưu tỷ lệ chuyển đổi & xây dựng chiến lược giữ chân',
+                larita_scope_4: 'Hỗ trợ phối hợp 6–7 team: Nội dung, Design, Ecom, Digital Marketing, Vận hành & Sales Offline',
+                larita_scope_5: 'Theo dõi GMV & tỷ lệ chuyển đổi theo từng phiên, đề xuất cải tiến dựa trên dữ liệu thực tế',
+                larita_scope_header: 'Phạm vi công việc (02/2026 – 05/2026)',
+                larita_footer: 'DỰ ÁN LARITA — MIA RETAIL',
+                // Slide 5 — CTV
+                slide_ctv_label: 'CTV Freelance',
+                ctv_scope_header: 'Phạm vi công việc',
+                ctv_scope_1: 'Host Livestream đa nền tảng: TikTok, Shopee, Facebook, Lazada — linh hoạt ngành hàng',
+                ctv_scope_2: 'Thuyết phục & tư vấn sản phẩm trực tiếp, dẫn dắt phòng live chốt đơn hiệu quả',
+                ctv_scope_3: 'Giữ tương tác, kéo traffic & tạo đỉnh chuyển đổi trong suốt phiên live',
+                ctv_scope_4: 'Review kết quả từng phiên, đề xuất điều chỉnh kịch bản & cách tiếp cận sản phẩm',
+                ctv_scope_5: 'Ngành hàng đa dạng: mỹ phẩm, thời trang, gia dụng...',
+                ctv_footer: 'FREELANCE LIVESTREAM',
+                // Slide 6 — Awards
+                slide_awards_label: 'Thành Tích & Giải Thưởng',
+                awards_tab1: '🏆 Giải thưởng', awards_tab2: '📊 Kỷ lục Doanh thu',
+                awards_footer: 'THÀNH TỰU & GIẢI THƯỞNG',
+                // Slide 7 — Skills
+                slide_skills_label: 'Kỹ Năng & Chuyên Môn',
+                skills_heading1: 'Kỹ năng chuyên môn', skills_heading2: 'Điểm mạnh cốt lõi',
+                skill_host_live: 'Host Livestream', skill_gmv: 'GMV Strategy',
+                skill_script: 'Kịch bản Live', skill_team: 'Team Training',
+                strength_title1: 'Live hơn 1.000 giờ thực chiến trong 1 năm',
+                strength_desc1a: 'Doanh thu cá nhân <span class="font-extrabold underline underline-offset-2">600tr – 1 tỷ / tháng</span> tại MIA.vn',
+                strength_desc1b: 'Kỷ lục đạt hơn <span class="font-extrabold underline underline-offset-2">200tr trong 3 giờ</span> livestream',
+                strength_title2: '✔ Nắm bắt tâm lý khách hàng',
+                strength_desc2: 'Dẫn dắt cảm xúc người xem, tạo đỉnh tương tác & thúc đẩy chốt đơn đúng thời điểm.',
+                strength_title3: '✔ Chịu áp lực & Chủ động',
+                strength_desc3: 'Thích nghi nhanh trong môi trường tốc độ cao, luôn bám sát & vượt mục tiêu GMV.',
+                skills_footer: 'KỸ NĂNG & ĐIỂM MẠNH',
+                // Slide 8 — Career Vision
+                slide_vision_label: 'Định Hướng Nghề Nghiệp',
+                vision_title: 'LỘ TRÌNH', vision_subtitle: 'Định hướng phát triển',
+                vision_quote: '"Đúng nền tảng — Vững kịch bản — Chắc doanh số."',
+                vision_stage1_label: 'Hiện tại',
+                vision_stage1_desc: 'Dẫn dắt team, vận hành phòng live & tối ưu GMV đa nền tảng.',
+                vision_stage2_label: 'Dài hạn',
+                vision_stage2_desc: 'Chiến lược đa kênh, quản lý vận hành & phát triển thương hiệu bền vững.',
+                vision_footer: 'MỤC TIÊU & ĐỊNH HƯỚNG',
+                // Slide 9 — Contact
+                contact_header: 'Liên Hệ Trực Tiếp',
+                contact_phone_label: 'Số Điện Thoại', contact_email_label: 'Địa Chỉ Email',
+            },
+            en: {
+                // Nav
+                nav_about: 'About', nav_journey: 'Journey', nav_work: 'Work Experience',
+                nav_achievements: 'Achievements', nav_skills: 'Skills',
+                nav_vision: 'Career Vision', nav_contact: 'Contact',
+                // Cover
+                cover_role: 'Livestream Host',
+                cover_quote: '"Right foundation - Solid script - Guaranteed revenue"',
+                // Slide 2 — About
+                slide_about_label: 'My Profile',
+                about_subtitle: '🌟 "Touch - Right - Enough"',
+                about_desc: 'Hi, I\'m <strong>Nguyễn Thị Mỹ Diệu</strong> — an energetic and creatively sharp Livestream Leader. With hands-on experience in Ecommerce and Livestream Hosting, I deeply understand that a high-converting live session requires not just a skilled host — but also a solid content strategy, tight scripting, and the ability to trigger customer emotions at exactly the right moment. My guiding philosophy:',
+                cham_title: 'TOUCH', cham_desc: 'Deeply connect with the emotional pulse of customers.',
+                dung_title: 'RIGHT', dung_desc: 'The right story, the right core values of the Brand.',
+                du_title: 'ENOUGH', du_desc: 'Enough essential information to stimulate conversion.',
+                about_footer: 'ABOUT ME',
+                // Slide 3 — Journey
+                journey_label: 'Work Experience',
+                journey_mia_date: '10/2024 – Present',
+                journey_mia_role: 'Lead Team Livestream & TikTok Ecommerce',
+                journey_mia_desc: 'Manage GMVMax campaigns, Host Livestream, TikTok/Facebook Ads, manage & train the livestream team.',
+                journey_ctv_brand: 'Sicoli, Guiaruan & many other brands',
+                journey_ctv_desc: 'Direct Host & Seller on TikTok Shop and Shopee Live.',
+                journey_jsy_role: 'Livestream Staff — Cosmetics',
+                journey_jsy_desc: 'Sales consultant, coordinate live room, analyze feedback & contribute ideas.',
+                journey_footer: 'CAREER JOURNEY',
+                // Slide 4 — MIA
+                slide_mia_label: 'Hands-On Experience',
+                tab_mia: '📦 MIA Livestream', tab_vj: '🎤 VJ Booking',
+                mia_platform: 'TikTok Shop — Luggage & Travel Bags',
+                mia_scope_header: 'Scope of work (10/2024 – Present)',
+                mia_scope_1: 'Plan monthly deal lists & live session strategies, coordinate across departments',
+                mia_scope_2: 'Write live scripts, design minigames & flash sales to drive engagement and close orders',
+                mia_scope_3: 'Host Livestream on TikTok, Shopee, Facebook,... — coordinate live room, handle real-time situations',
+                mia_scope_4: 'Recruit, train & manage the internal livestream team',
+                mia_scope_5: 'Produce VJ Booking videos: product reviews, unboxing & viral short-form content',
+                mia_revenue_badge: 'Personal revenue approx. <span class="underline underline-offset-2">600M – 1B VND / month</span>',
+                mia_btn_larita: 'Larita Project',
+                mia_footer: 'HANDS-ON EXPERIENCE — MIA.VN',
+                // Slide 4b — Album
+                slide_album_label: 'Behind-the-Scenes Album', album_footer: 'BEHIND-THE-SCENES ALBUM',
+                // Slide Larita
+                slide_larita_label: 'Hands-On Experience — Larita',
+                larita_tag2: 'Luggage Brand — MIA Retail',
+                larita_scope_header: 'Scope of work (02/2026 – 05/2026)',
+                larita_scope_1: 'Launched the Larita luggage brand simultaneously on TikTok Shop, Shopee, Website...',
+                larita_scope_2: 'Developed content strategy, deal lists & live scripts for each phase of the launch campaign',
+                larita_scope_3: 'Analyzed customer behavior, optimized conversion rates & built customer retention strategies',
+                larita_scope_4: 'Coordinated 6–7 teams: Content, Design, Ecom, Digital Marketing, Operations & Offline Sales',
+                larita_scope_5: 'Tracked GMV & conversion rates per session, proposed improvements based on real data',
+                larita_footer: 'LARITA PROJECT — MIA RETAIL',
+                // Slide 5 — CTV
+                slide_ctv_label: 'Freelance Livestream',
+                ctv_scope_header: 'Scope of work',
+                ctv_scope_1: 'Multi-platform Livestream Host: TikTok, Shopee, Facebook, Lazada — flexible across product categories',
+                ctv_scope_2: 'Persuade & consult on products directly, lead the live room to close orders effectively',
+                ctv_scope_3: 'Maintain engagement, drive traffic & create conversion peaks throughout the live session',
+                ctv_scope_4: 'Review results per session, propose script adjustments & product approach changes',
+                ctv_scope_5: 'Diverse product categories: cosmetics, fashion, household goods...',
+                ctv_footer: 'FREELANCE LIVESTREAM',
+                // Slide 6 — Awards
+                slide_awards_label: 'Awards & Achievements',
+                awards_tab1: '🏆 Awards', awards_tab2: '📊 Revenue Records',
+                awards_footer: 'ACHIEVEMENTS & AWARDS',
+                // Slide 7 — Skills
+                slide_skills_label: 'Skills & Expertise',
+                skills_heading1: 'Core Skills', skills_heading2: 'Core Strengths',
+                skill_host_live: 'Host Livestream', skill_gmv: 'GMV Strategy',
+                skill_script: 'Live Script', skill_team: 'Team Training',
+                strength_title1: '1,000+ hours of live experience in 1 year',
+                strength_desc1a: 'Personal revenue <span class="font-extrabold underline underline-offset-2">600M – 1B VND / month</span> at MIA.vn',
+                strength_desc1b: 'Record: <span class="font-extrabold underline underline-offset-2">200M VND in 3 hours</span> of livestream',
+                strength_title2: '✔ Customer Psychology Insight',
+                strength_desc2: 'Guide viewer emotions, create engagement peaks & drive order closing at the right moment.',
+                strength_title3: '✔ Resilient & Proactive',
+                strength_desc3: 'Adapt quickly in high-speed environments, consistently track & exceed GMV targets.',
+                skills_footer: 'SKILLS & STRENGTHS',
+                // Slide 8 — Career Vision
+                slide_vision_label: 'Career Vision',
+                vision_title: 'ROADMAP', vision_subtitle: 'Development Direction',
+                vision_quote: '"Right foundation — Solid script — Guaranteed revenue."',
+                vision_stage1_label: 'Current',
+                vision_stage1_desc: 'Lead the team, operate the live room & optimize multi-platform GMV.',
+                vision_stage2_label: 'Long-term',
+                vision_stage2_desc: 'Multi-channel strategy, operational management & sustainable brand development.',
+                vision_footer: 'GOALS & DIRECTION',
+                // Slide 9 — Contact
+                contact_header: 'Direct Contact',
+                contact_phone_label: 'Phone Number', contact_email_label: 'Email Address',
+            },
+            cn: {
+                // Nav
+                nav_about: '关于', nav_journey: '职业旅程', nav_work: '工作经历',
+                nav_achievements: '成就', nav_skills: '技能',
+                nav_vision: '职业规划', nav_contact: '联系方式',
+                // Cover
+                cover_role: '直播主播',
+                cover_quote: '"扎实基础 - 完善剧本 - 稳固营收"',
+                // Slide 2 — About
+                slide_about_label: '个人简介',
+                about_subtitle: '🌟 "触动 - 精准 - 足够"',
+                about_desc: '大家好，我是 <strong>Nguyễn Thị Mỹ Diệu</strong> — 一位充满活力、创意敏锐的直播负责人。凭借电商和直播主播的实战经验，我深知一场高转化直播不仅需要优秀的主播，还需要完善的内容策略、严密的脚本和在恰当时机触动客户情绪的能力。我一贯秉持的理念：',
+                cham_title: '触动', cham_desc: '深触客户情感脉络，引发共鸣。',
+                dung_title: '精准', dung_desc: '精准的故事，契合品牌核心价值观。',
+                du_title: '足够', du_desc: '提供足够的信息量来刺激转化。',
+                about_footer: '个人介绍',
+                // Slide 3 — Journey
+                journey_label: '工作经历',
+                journey_mia_date: '10/2024 – 至今',
+                journey_mia_role: '直播与TikTok电商团队负责人',
+                journey_mia_desc: '运营GMVMax活动、主播直播、TikTok/Facebook广告，管理和培训直播团队。',
+                journey_ctv_brand: 'Sicoli、Guiaruan及其他品牌',
+                journey_ctv_desc: '在TikTok Shop和Shopee Live担任主播和销售员。',
+                journey_jsy_role: '直播员 — 美妆',
+                journey_jsy_desc: '销售顾问，协调直播间，分析反馈并贡献创意。',
+                journey_footer: '职业历程',
+                // Slide 4 — MIA
+                slide_mia_label: '实战经验',
+                tab_mia: '📦 MIA Livestream', tab_vj: '🎤 VJ Booking',
+                mia_platform: 'TikTok Shop — 行李箱与旅行包',
+                mia_scope_header: '工作范围（10/2024 – 至今）',
+                mia_scope_1: '制定每月交易清单和直播策略，跨部门协调',
+                mia_scope_2: '编写直播脚本，设计互动游戏和闪购活动以提升互动和促成交',
+                mia_scope_3: '在TikTok、Shopee、Facebook等平台主播直播，协调直播间，处理实时状况',
+                mia_scope_4: '招募、培训和管理内部直播团队',
+                mia_scope_5: '制作VJ视频：产品评测、开箱及病毒式短视频',
+                mia_revenue_badge: '个人月营业额约 <span class="underline underline-offset-2">6–10亿越南盾/月</span>',
+                mia_btn_larita: 'Larita项目',
+                mia_footer: '实战经验 — MIA.VN',
+                // Slide 4b — Album
+                slide_album_label: '幕后相册', album_footer: '幕后相册',
+                // Slide Larita
+                slide_larita_label: '实战经验 — Larita',
+                larita_tag2: '行李箱品牌 — MIA Retail',
+                larita_scope_header: '工作范围（02/2026 – 05/2026）',
+                larita_scope_1: '同步在TikTok Shop、Shopee、官网推出Larita行李箱品牌...',
+                larita_scope_2: '为发布活动的每个阶段制定内容策略、交易清单和直播脚本',
+                larita_scope_3: '分析客户行为，优化转化率并建立客户留存策略',
+                larita_scope_4: '协调6–7个团队：内容、设计、电商、数字营销、运营和线下销售',
+                larita_scope_5: '跟踪每场GMV和转化率，基于实际数据提出改进建议',
+                larita_footer: 'Larita项目 — MIA RETAIL',
+                // Slide 5 — CTV
+                slide_ctv_label: '自由职业直播',
+                ctv_scope_header: '工作范围',
+                ctv_scope_1: '多平台直播主播：TikTok、Shopee、Facebook、Lazada — 灵活适应各类商品',
+                ctv_scope_2: '直接说服和咨询客户，有效带动直播间成交',
+                ctv_scope_3: '维持互动、引流并在整个直播过程中创造转化高峰',
+                ctv_scope_4: '复盘每场直播结果，提出脚本和产品策略调整建议',
+                ctv_scope_5: '多样化商品类别：美妆、时尚、家居用品...',
+                ctv_footer: '自由职业直播',
+                // Slide 6 — Awards
+                slide_awards_label: '奖项与成就',
+                awards_tab1: '🏆 奖项', awards_tab2: '📊 销售纪录',
+                awards_footer: '成就与奖项',
+                // Slide 7 — Skills
+                slide_skills_label: '技能与专长',
+                skills_heading1: '专业技能', skills_heading2: '核心优势',
+                skill_host_live: '直播主播', skill_gmv: 'GMV Strategy',
+                skill_script: '直播脚本', skill_team: '团队培训',
+                strength_title1: '一年内超1,000小时实战直播经验',
+                strength_desc1a: '在MIA.vn个人月营业额 <span class="font-extrabold underline underline-offset-2">6–10亿越南盾</span>',
+                strength_desc1b: '纪录：直播 <span class="font-extrabold underline underline-offset-2">3小时达2亿越南盾</span>',
+                strength_title2: '✔ 洞察客户心理',
+                strength_desc2: '引导观众情绪，创造互动高峰，在恰当时机促成交。',
+                strength_title3: '✔ 抗压能力强 & 主动积极',
+                strength_desc3: '快速适应高节奏环境，持续跟踪并超越GMV目标。',
+                skills_footer: '技能与优势',
+                // Slide 8 — Career Vision
+                slide_vision_label: '职业规划',
+                vision_title: '发展路线', vision_subtitle: '发展方向',
+                vision_quote: '"扎实基础 — 完善剧本 — 稳固营收。"',
+                vision_stage1_label: '当前',
+                vision_stage1_desc: '带领团队，运营直播间，优化多平台GMV。',
+                vision_stage2_label: '长期',
+                vision_stage2_desc: '多渠道策略，运营管理，可持续品牌发展。',
+                vision_footer: '目标与方向',
+                // Slide 9 — Contact
+                contact_header: '直接联系',
+                contact_phone_label: '电话号码', contact_email_label: '电子邮件',
+            }
+        };
+
+        let currentLang = 'vi';
+
+        function switchLang(lang) {
+            if (!translations[lang]) return;
+            currentLang = lang;
+            const t = translations[lang];
+            // Update textContent elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+            // Update innerHTML elements (contain HTML tags)
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (t[key] !== undefined) el.innerHTML = t[key];
+            });
+            // Update dropdown label
+            const labels = {vi:'VNS', en:'ENG', cn:'CN'};
+            const lbl = document.getElementById('langDropLabel');
+            if (lbl) lbl.textContent = labels[lang] || lang.toUpperCase();
+            // Update active option highlighting
+            ['vi','en','cn'].forEach(l => {
+                const opt = document.getElementById('lopt_' + l);
+                if (opt) opt.classList.toggle('active-opt', l === lang);
+            });
+        }
+
+        function toggleLangDrop(e) {
+            e.stopPropagation();
+            const menu = document.getElementById('langDropMenu');
+            const arrow = document.getElementById('langDropArrow');
+            const open = menu.style.display === 'block';
+            menu.style.display = open ? 'none' : 'block';
+            if (arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
+        }
+
+        function chooseLang(lang) {
+            switchLang(lang);
+            document.getElementById('langDropMenu').style.display = 'none';
+            const arrow = document.getElementById('langDropArrow');
+            if (arrow) arrow.style.transform = '';
+        }
+
+        document.addEventListener('click', function() {
+            const menu = document.getElementById('langDropMenu');
+            const arrow = document.getElementById('langDropArrow');
+            if (menu) menu.style.display = 'none';
+            if (arrow) arrow.style.transform = '';
+        });
+
+    </script>
+
+    <!-- Lightbox -->
+    <div id="lb" onclick="closeLb()" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1.5rem;">
+        <button onclick="closeLb()" style="position:absolute;top:1rem;right:1.5rem;color:#fff;background:none;border:none;font-size:2rem;cursor:pointer;line-height:1;">✕</button>
+
+        <div style="display:flex;align-items:center;gap:1rem;" onclick="event.stopPropagation()">
+            <button onclick="lbNav(-1)" style="color:#fff;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:48px;height:48px;font-size:1.4rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">&#8592;</button>
+            <img id="lbImg" src="" style="max-width:80vw;max-height:78vh;object-fit:contain;border-radius:1rem;box-shadow:0 8px 40px rgba(0,0,0,0.5);">
+            <button onclick="lbNav(1)"  style="color:#fff;background:rgba(255,255,255,0.15);border:none;border-radius:50%;width:48px;height:48px;font-size:1.4rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;">&#8594;</button>
+        </div>
+
+        <p id="lbCaption" style="color:#fff;font-size:0.85rem;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;text-align:center;max-width:600px;opacity:0.85;"></p>
+        <p id="lbCounter" style="color:#fff;font-size:0.7rem;opacity:0.5;font-family:'Plus Jakarta Sans',sans-serif;"></p>
+    </div>
+    <script>
+        let _lbImgs = [], _lbIdx = 0;
+        function openLb(el) {
+            _lbImgs = Array.from(document.querySelectorAll('[data-caption]'));
+            _lbIdx  = _lbImgs.indexOf(el);
+            _showLb();
+            document.getElementById('lb').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function _showLb() {
+            const el = _lbImgs[_lbIdx];
+            document.getElementById('lbImg').src = el.src;
+            document.getElementById('lbCaption').textContent = el.dataset.caption || '';
+            document.getElementById('lbCounter').textContent = `${_lbIdx + 1} / ${_lbImgs.length}`;
+        }
+        function lbNav(dir) {
+            _lbIdx = (_lbIdx + dir + _lbImgs.length) % _lbImgs.length;
+            _showLb();
+        }
+        function closeLb() {
+            document.getElementById('lb').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape')      closeLb();
+            if (e.key === 'ArrowRight')  lbNav(1);
+            if (e.key === 'ArrowLeft')   lbNav(-1);
+        });
+    </script>
+
+    <!-- Back to top button -->
+    <button id="backToTopBtn"
+        onclick="goToSlide(0)"
+        title="Về trang đầu"
+        style="
+            position:fixed;
+            bottom:2rem;
+            right:2rem;
+            z-index:9999;
+            width:48px;
+            height:48px;
+            border-radius:50%;
+            background:#B31A24;
+            color:#fff;
+            border:none;
+            cursor:pointer;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            box-shadow:0 4px 16px rgba(179,26,36,0.35);
+            transition:opacity 0.3s, transform 0.3s;
+        "
+        onmouseenter="this.style.background='#91121A'; this.style.transform='scale(1.1)'"
+        onmouseleave="this.style.background='#B31A24'; this.style.transform='scale(1)'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
     </button>
-  </nav>
 
-  <!-- HERO -->
-  <section id="home" class="hero">
-    <img class="hero-video" src="backgroud/adcd389b-b1d8-4463-b2f8-5a4d6055de7a.jpg" alt="" />
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-sub reveal">Chào mừng đến với thế giới của</p>
-      <h1 class="hero-title reveal">Nguyễn Thị<br /><em>Mỹ Diệu</em></h1>
-      <p class="hero-desc reveal">Livestreamer · Livestream Operator · Content Creator</p>
-      <a href="#gallery" class="btn-outline reveal">Khám phá →</a>
-    </div>
-    <div class="scroll-indicator">
-      <span></span>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="about">
-
-    <div class="section-bg" style="background-image:url('images/albulm2/503102084_2217925825333206_1542008029086343562_n.jpg')"></div>
-    <div class="section-overlay"></div>
-
-    <div class="about-inner">
-      <div class="about-image-wrap reveal">
-        <img src="images/albulm1/632329636_2436293293496457_6206036198287223446_n.jpg" alt="Mỹ Diệu" class="about-portrait" />
-        <div class="about-image-frame"></div>
-      </div>
-      <div class="about-text reveal">
-        <span class="section-label">Về tôi</span>
-        <h2>Xin chào, tôi là<br /><em>Mỹ Diệu</em></h2>
-        <p>
-          Là một nhân sự năng động, tự tin và sở hữu tư duy nhạy bén trong mảng <strong>TikTok Ecommerce</strong> — với năng lực toàn diện từ năng khiếu đứng trước ống kính (Host Livestream) đến tư duy kỹ thuật vận hành hệ thống, tối ưu quảng cáo và quản trị nhân sự tại <strong>MIA.vn</strong>.
-        </p>
-        <p>
-          Đạt giải <em>Chiến Binh Livestream Xuất Sắc 2025</em> với kỷ lục doanh thu cá nhân <strong>6,9 tỷ VND</strong> trong các chiến dịch Mega Live — đồng thời cùng đội ngũ <em>Lập Kỷ Lục Doanh Thu & Tăng Trưởng 2025</em> trên nền tảng TikTok Shop.
-        </p>
-        <div class="about-stats">
-          <div class="stat">
-            <span class="stat-number">6.9<em>tỷ</em></span>
-            <span class="stat-label">Doanh thu cá nhân</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">2<em>giải</em></span>
-            <span class="stat-label">Thưởng 2025</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">#1</span>
-            <span class="stat-label">Chiến Binh Xuất Sắc</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- JOURNEY -->
-  <section id="journey" class="journey-section">
-    <div class="section-header reveal">
-      <span class="section-label">Hành trình</span>
-      <h2>Quá trình<br /><em>sự nghiệp</em></h2>
-    </div>
-
-    <div class="journey-wrap" id="journeyWrap">
-      <!-- Road -->
-      <div class="j-road-track">
-        <div class="j-road-fill" id="jRoadFill"></div>
-        <div class="j-road-glow" id="jRoadGlow"></div>
-      </div>
-
-      <!-- M1 · TOP · Học vấn -->
-      <div class="jm jm-t" data-pos="8" style="--p:8%">
-        <div class="jm-upper">
-          <div class="jm-card">
-            <span class="jm-yr">Học vấn</span>
-            <strong>HCMUTE · Kế toán</strong>
-            <span>Nền tảng tư duy kiểm soát chi phí & đo lường ROAS</span>
-          </div>
-          <svg class="jm-flag" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><polygon points="0,0 17,7 0,14"/></svg>
-          <div class="jm-stem"></div>
-        </div>
-        <div class="jm-node"></div>
-      </div>
-
-      <!-- M2 · BOTTOM · Vận hành Campaign -->
-      <div class="jm jm-b" data-pos="25" style="--p:25%">
-        <div class="jm-node"></div>
-        <div class="jm-lower">
-          <div class="jm-stem"></div>
-          <svg class="jm-flag" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><polygon points="0,0 17,7 0,14"/></svg>
-          <div class="jm-card">
-            <span class="jm-yr">Campaign Operation</span>
-            <strong>Vận hành Livestream</strong>
-            <span>TikTokShop · Voucher · Flash Sale · GMVMax Product &amp; Live</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- M3 · TOP · Host & Content -->
-      <div class="jm jm-t" data-pos="42" style="--p:42%">
-        <div class="jm-upper">
-          <div class="jm-card">
-            <span class="jm-yr">Hosting & Content</span>
-            <strong>Host Livestream</strong>
-            <span>Kịch bản · Minigame · Tăng Retention Rate · Studio concept</span>
-          </div>
-          <svg class="jm-flag" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><polygon points="0,0 17,7 0,14"/></svg>
-          <div class="jm-stem"></div>
-        </div>
-        <div class="jm-node"></div>
-      </div>
-
-      <!-- M4 · BOTTOM · Marketing -->
-      <div class="jm jm-b" data-pos="59" style="--p:59%">
-        <div class="jm-node"></div>
-        <div class="jm-lower">
-          <div class="jm-stem"></div>
-          <svg class="jm-flag" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><polygon points="0,0 17,7 0,14"/></svg>
-          <div class="jm-card">
-            <span class="jm-yr">Marketing & Booking</span>
-            <strong>Tiếp thị &amp; KOC/KOL</strong>
-            <span>TikTok/Facebook Ads · ROAS · Booking · SEO TikTok Shop</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- M5 · TOP · Team Management -->
-      <div class="jm jm-t" data-pos="76" style="--p:76%">
-        <div class="jm-upper">
-          <div class="jm-card">
-            <span class="jm-yr">Team Management</span>
-            <strong>Quản lý &amp; Đào tạo</strong>
-            <span>Tuyển dụng · Training Host · Lịch sóng · Chấm công</span>
-          </div>
-          <svg class="jm-flag" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><polygon points="0,0 17,7 0,14"/></svg>
-          <div class="jm-stem"></div>
-        </div>
-        <div class="jm-node"></div>
-      </div>
-
-      <!-- M6 · BOTTOM · 2025 Awards highlight -->
-      <div class="jm jm-b jm-gold" data-pos="92" style="--p:92%">
-        <div class="jm-node"></div>
-        <div class="jm-lower">
-          <div class="jm-stem"></div>
-          <svg class="jm-flag" viewBox="0 0 18 14" fill="currentColor" aria-hidden="true"><polygon points="0,0 17,7 0,14"/></svg>
-          <div class="jm-card">
-            <span class="jm-yr">2025 🏆</span>
-            <strong>Chiến Binh Xuất Sắc</strong>
-            <span>6.9 tỷ VND · Kỷ lục GMV · MIA.vn Year End Party</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- GALLERY -->
-  <section id="gallery" class="gallery-section">
-
-    <div class="photo-wall" id="photoWall">
-      <!-- Reflected hero video background -->
-      <video class="pw-bg-video" autoplay muted loop playsinline aria-hidden="true">
-        <source src="Hailuo_Video__Animate this image_ the woman_512089312181313539.mp4" type="video/mp4" />
-      </video>
-      <div class="pw-label" aria-hidden="true">
-        <span>Vision</span>
-        <i class="pw-dot">.</i>
-        <span>Visual</span>
-        <i class="pw-dot">.</i>
-        <span>Me</span>
-      </div>
-      <!-- Row 1 – album 1 · sang trái -->
-      <div class="pw-row">
-        <div class="pw-track pw-track--left">
-          <img src="images/albulm1/631352437_2436279576831162_8366921677159252185_n.jpg" alt="YEP 2025" /><img src="images/albulm1/631580102_2436293360163117_79697568492159050_n.jpg" alt="YEP 2025" /><img src="images/albulm1/631789228_2436293426829777_458553714891598834_n.jpg" alt="YEP 2025" /><img src="images/albulm1/632329636_2436293293496457_6206036198287223446_n.jpg" alt="YEP 2025" /><img src="images/albulm1/633123186_2436293326829787_7905675155955613988_n.jpg" alt="YEP 2025" /><img src="images/albulm1/633159117_2436293353496451_3704647611853874384_n.jpg" alt="YEP 2025" /><img src="images/albulm1/633185696_2436293180163135_8596955500573532876_n.jpg" alt="YEP 2025" /><img src="images/albulm1/633790814_2436281316830988_7329674540135208801_n.jpg" alt="YEP 2025" /><img src="images/albulm1/954edc3a-4c25-4c1a-a855-5e24bea5f1a3.jpg" alt="YEP 2025" />
-          <img src="images/albulm1/631352437_2436279576831162_8366921677159252185_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/631580102_2436293360163117_79697568492159050_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/631789228_2436293426829777_458553714891598834_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/632329636_2436293293496457_6206036198287223446_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/633123186_2436293326829787_7905675155955613988_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/633159117_2436293353496451_3704647611853874384_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/633185696_2436293180163135_8596955500573532876_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/633790814_2436281316830988_7329674540135208801_n.jpg" alt="" aria-hidden="true" /><img src="images/albulm1/954edc3a-4c25-4c1a-a855-5e24bea5f1a3.jpg" alt="" aria-hidden="true" />
-        </div>
-      </div>
-      <!-- Row 2 – album 3 · sang phải -->
-      <div class="pw-row">
-        <div class="pw-track pw-track--right">
-          <img src="images/albulm3/1.jpg" alt="Livestream" /><img src="images/albulm3/2.jpg" alt="Livestream" /><img src="images/albulm3/3.jpg" alt="Livestream" /><img src="images/albulm3/4.jpg" alt="Livestream" /><img src="images/albulm3/20.jpg" alt="Livestream" /><img src="images/albulm3/21.jpg" alt="Livestream" /><img src="images/albulm3/22.jpg" alt="Livestream" /><img src="images/albulm3/50.jpg" alt="Livestream" /><img src="images/albulm3/51.jpg" alt="Livestream" />
-          <img src="images/albulm3/1.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/2.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/3.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/4.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/20.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/21.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/22.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/50.jpg" alt="" aria-hidden="true" /><img src="images/albulm3/51.jpg" alt="" aria-hidden="true" />
-        </div>
-      </div>
-      <!-- Row 3 – album 4 · sang trái -->
-      <div class="pw-row">
-        <div class="pw-track pw-track--left" style="--dur:50s">
-          <img src="images/albulm4/1.jpg" alt="" /><img src="images/albulm4/2.jpg" alt="" /><img src="images/albulm4/3.jpg" alt="" /><img src="images/albulm4/4.jpg" alt="" /><img src="images/albulm4/5.jpg" alt="" /><img src="images/albulm4/10.jpg" alt="" /><img src="images/albulm4/11.jpg" alt="" /><img src="images/albulm4/12.jpg" alt="" /><img src="images/albulm4/20.jpg" alt="" /><img src="images/albulm4/30.jpg" alt="" /><img src="images/albulm4/40.jpg" alt="" /><img src="images/albulm4/50.jpg" alt="" />
-          <img src="images/albulm4/1.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/2.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/3.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/4.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/5.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/10.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/11.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/12.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/20.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/30.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/40.jpg" alt="" aria-hidden="true" /><img src="images/albulm4/50.jpg" alt="" aria-hidden="true" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- VIDEO -->
-  <section id="video" class="video-section">
-    <div class="section-bg" style="background-image:url('images/albulm2/502921831_2217927605333028_6923909194345131921_n.jpg')"></div>
-    <div class="section-overlay"></div>
-    <div class="section-header reveal">
-      <span class="section-label">Video nổi bật</span>
-      <h2>Chuyển động<br /><em>&amp; Cảm xúc</em></h2>
-    </div>
-    <div class="video-grid reveal">
-      <div class="video-wrap">
-        <video controls>
-          <source src="video/096e9eb5-4df3-4343-848e-7d8ba3178a30.mp4" type="video/mp4" />
-        </video>
-      </div>
-      <div class="video-wrap">
-        <video controls>
-          <source src="video/c9bea248-1633-4404-aae7-8f7e4e91e63e.mp4" type="video/mp4" />
-        </video>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="contact">
-    <div class="section-bg" style="background-image:url('images/albulm2/503249540_2217927618666360_6573219753030840519_n.jpg')"></div>
-    <div class="section-overlay"></div>
-    <div class="contact-inner reveal">
-      <span class="section-label">Liên hệ</span>
-      <h2>Cùng kết nối<br /><em>nhé!</em></h2>
-      <p>Nếu bạn muốn hợp tác hoặc chỉ đơn giản là muốn nói xin chào — tôi luôn sẵn sàng lắng nghe.</p>
-      <div class="contact-links">
-        <a class="contact-link" href="https://www.facebook.com/nguyen.my.dieu.609400" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          Facebook
-        </a>
-        <a class="contact-link" href="https://www.tiktok.com/@midiu453" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-          TikTok
-        </a>
-        <a class="contact-link" href="mailto:mydieu442003@gmail.com">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          Email
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>© 2025 Nguyễn Thị Mỹ Diệu · Designed with <em>♥</em></p>
-  </footer>
-
-  <!-- LIGHTBOX -->
-  <div id="lightbox" class="lightbox">
-    <button class="lightbox-close" id="lightboxClose">✕</button>
-    <button class="lightbox-prev" id="lightboxPrev">‹</button>
-    <button class="lightbox-next" id="lightboxNext">›</button>
-    <div class="lightbox-inner">
-      <img id="lightboxImg" src="" alt="" />
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const btn = document.getElementById('backToTopBtn');
+            btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+    </script>
 </body>
 </html>

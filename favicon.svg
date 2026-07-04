@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Nền trắng bo góc -->
+  <rect width="64" height="64" rx="10" fill="#ffffff"/>
+
+  <!-- N – góc trên trái (hồng) -->
+  <rect x="3" y="3" width="28" height="28" rx="5" fill="#e8517c"/>
+  <text x="17" y="17"
+        text-anchor="middle" dominant-baseline="middle"
+        font-family="Arial Black, Helvetica Neue, sans-serif"
+        font-size="19" font-weight="900" fill="#ffffff">N</text>
+
+  <!-- T – góc trên phải (xanh dương) -->
+  <rect x="33" y="3" width="28" height="28" rx="5" fill="#4a9eca"/>
+  <text x="47" y="17"
+        text-anchor="middle" dominant-baseline="middle"
+        font-family="Arial Black, Helvetica Neue, sans-serif"
+        font-size="19" font-weight="900" fill="#ffffff">T</text>
+
+  <!-- M – góc dưới trái (xanh mint) -->
+  <rect x="3" y="33" width="28" height="28" rx="5" fill="#3fbfac"/>
+  <text x="17" y="47"
+        text-anchor="middle" dominant-baseline="middle"
+        font-family="Arial Black, Helvetica Neue, sans-serif"
+        font-size="19" font-weight="900" fill="#ffffff">M</text>
+
+  <!-- D – góc dưới phải (cam) -->
+  <rect x="33" y="33" width="28" height="28" rx="5" fill="#f5834a"/>
+  <text x="47" y="47"
+        text-anchor="middle" dominant-baseline="middle"
+        font-family="Arial Black, Helvetica Neue, sans-serif"
+        font-size="19" font-weight="900" fill="#ffffff">D</text>
+</svg>
